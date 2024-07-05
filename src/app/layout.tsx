@@ -25,7 +25,7 @@ export default function RootLayout({
           <div className="flex flex-1">
             <Navbar />
             <Separator orientation="vertical"/>
-            <div className="p-4 w-full h-full">
+            <div className="w-full h-full">
               {children}
             </div>
           </div>

@@ -7,6 +7,8 @@ type GlobalState = {
     setSearch: (search: string) => void;
     filter: string;
     setFilter: (filter: string) => void;
+    categories: string[];
+    setCategories: (categories: string[]) => void;
 }
 
 const initialState: GlobalState = {
@@ -14,6 +16,8 @@ const initialState: GlobalState = {
     setSearch: () => {},
     filter: '',
     setFilter: () => {},
+    categories: [],
+    setCategories: () => {},
 }
 
 const GlobalStateContext = createContext<GlobalState>(initialState);
@@ -21,9 +25,10 @@ const GlobalStateContext = createContext<GlobalState>(initialState);
 export default function GlobalContext({ children }: { children: React.ReactNode }) {
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
+    const [categories, setCategories] = useState<string[]>([])
     
     return (
-        <GlobalStateContext.Provider value={{ search, setSearch, filter, setFilter}}>
+        <GlobalStateContext.Provider value={{ search, setSearch, filter, setFilter, categories, setCategories}}>
             {children}
         </GlobalStateContext.Provider>
     )

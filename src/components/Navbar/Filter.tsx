@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Select,
     SelectContent,
@@ -5,23 +7,24 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Input } from "../ui/input"
 import { IoClose } from "react-icons/io5";
 import { Badge } from "../ui/badge";
+import SearchCategory from "./SearchCategory";
+import { useGlobalState } from "@/app/GlobalContext";
 
-
-const categories = [
-    "Voice Recognition",
-    "Image Recognition",
-    "Text Recognition",
-    "Data Analysis",
-    "Data Visualization",
-    "Data Preprocessing",
-    "Image Generation",
-    "Text Generation",
-]
+// const categories = [
+//     "Voice Recognition",
+//     "Image Recognition",
+//     "Text Recognition",
+//     "Data Analysis",
+//     "Data Visualization",
+//     "Data Preprocessing",
+//     "Image Generation",
+//     "Text Generation",
+// ]
 
 export default function Filter() {
+    const { categories }  = useGlobalState()
     return (
         <div className="flex flex-col gap-4">
             <div className="w-full flex gap-2">
@@ -61,7 +64,7 @@ export default function Filter() {
             </div>
             <div className="w-full flex flex-col">
                 <h2>Categories</h2>
-                <Input placeholder="Search Categories" />
+                <SearchCategory />
                 <div className="flex flex-wrap mt-2 gap-1">
                     {categories.map((category) => (
                         <Category key={category} name={category}/>
@@ -74,10 +77,10 @@ export default function Filter() {
 
 function Category({ name }: { name: string }) {
     return (
-        <Badge variant="secondary" className="p-2 flex items-center gap-2 flex-grow justify-between">
+        <Badge variant="secondary" className="p-2 flex items-center gap-2 justify-between">
             {name}
             <button role="button" aria-label={"remove "+name} className="hover:ring-8 hover:bg-destructive group outline-none focus:ring-4 ring-destructive rounded-full">
-                <IoClose className="text-destructive group-hover:text-destructive-foreground"/>
+                <IoClose className="text-red-500 group-hover:text-destructive-foreground"/>
             </button>
         </Badge>
     )

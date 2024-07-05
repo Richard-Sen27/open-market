@@ -1,5 +1,6 @@
 import ModelCard from "@/components/ModelCard";
 import Pager from "@/components/Pagination";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const content = [
   {
@@ -54,15 +55,18 @@ const content = [
 
 export default function Home() {
   return (
-    <main className="flex flex-col h-full">
+    <main className="flex flex-col h-full p-4">
       <h2 className="font-bold text-xl">Browse Models</h2>
-      <div className="flex flex-wrap mt-5 gap-5">
-        {
-          content.map((model) => (
-            <ModelCard key={model.title} {...model}/>
-          ))
-        }
-      </div>
+      <ScrollArea className="h-full">
+        <ScrollBar orientation="vertical"/>
+        <div className="flex flex-wrap mt-5 gap-5">
+          {
+            content.map((model) => (
+              <ModelCard key={model.title} {...model}/>
+            ))
+          }
+        </div>
+      </ScrollArea>
       <Pager />
     </main>
     );

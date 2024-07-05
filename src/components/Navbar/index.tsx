@@ -32,7 +32,7 @@ export default function Navbar() {
                     &copy; 2024 Open Market
                 </div>
             </div>
-            <div className="-z-10 absolute w-1/3 h-2/3 top-1/2 left-1/2 rotate-6 blur-3xl -translate-x-1/2 -translate-y-1/2 bg-green-500"/>
+            {/* <div className="-z-10 absolute w-1/3 h-2/3 top-1/2 left-1/2 rotate-6 blur-3xl -translate-x-1/2 -translate-y-1/2 bg-green-500"/> */}
         </nav>
     );
 }
