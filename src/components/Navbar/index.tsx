@@ -1,6 +1,9 @@
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import Filter from "./Filter";
+import { MdFileUpload, MdDashboard } from "react-icons/md";
+
 
 export default function Navbar() {
     return (
@@ -13,7 +16,17 @@ export default function Navbar() {
                     <Filter />
                 </ul>
             </div>
-            <div>
+            <div className="flex flex-col gap-2">
+                <div className="flex gap-4 mx-4 mb-2">
+                    <Button className="w-full flex justify-center gap-2" variant="outline">
+                        <MdFileUpload className="text-primary text-lg"/> 
+                        Upload Model
+                    </Button>
+                    <Button className="w-full flex justify-center gap-2" variant="outline">
+                    <MdDashboard className="text-primary text-lg"/>
+                        View Uploads
+                    </Button>
+                </div>
                 <Separator orientation="horizontal" className="h-[1.5px]"/>
                 <div className="p-4">
                     &copy; 2024 Open Market

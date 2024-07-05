@@ -13,9 +13,9 @@ import { Separator } from "./ui/separator";
 export default function ModelCard({ title, author, description, image} : { title: string, author: string, description: string, image: string }) {
     return (
         <Card className="flex flex-grow">
-            <div className="h-full flex items-center justify-center relative">
+            <div className="h-full flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
                 <Image src={image} alt="" width={150} height={150} className="z-10 aspect-square"/>
-                <Image src={image} alt="" width={150} height={150} className="z-0 h-full rounded-l-[calc(var(--radius)-1px)] aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-md"/>
+                <Image src={image} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl"/>
             </div>
             <Separator orientation="vertical"/>
             <div className="flex flex-col w-full">
