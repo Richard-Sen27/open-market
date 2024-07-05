@@ -5,9 +5,10 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { Input } from "../ui/input"
 import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
+import { useGlobalState } from "@/app/GlobalContext"
 
 // apply content of categories to categories
-const categories = [
+const catValues = [
   { label: "Voice Recognition", value: "voice-recognition" },
   { label: "Image Recognition", value: "image-recognition" },
   { label: "Text Recognition", value: "text-recognition" },
@@ -21,11 +22,19 @@ const categories = [
 export default function SearchCategory() {
   const [open, setOpen] = useState(true)
   const [value, setValue] = useState("")
-  const [filteredCategories, setFilteredCategories] = useState(categories)
+  const [filteredCategories, setFilteredCategories] = useState(catValues)
+  const { categories, setCategories } = useGlobalState()
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
     setOpen(true)
+  }
+
+  const handleSelect = (label: string) => {
+    setValue("")
+    setOpen(false)
+    console.log(`Selected: ${label} - ${value}`)
+    setCategories([...categories, label])
   }
 
   useEffect(() => {
@@ -36,21 +45,21 @@ export default function SearchCategory() {
 
   useEffect(() => {
     setFilteredCategories(
-      categories.filter(category =>
-        category.label.toLowerCase().includes(value)
+      catValues.filter(category =>
+        category.label.toLowerCase().includes(value) && categories.indexOf(category.label) === -1
       )
     )
   }, [value])
 
   return (
     <div className="w-full relative">
-      <Input type="text" placeholder="Search Category..." onInput={handleInput}/>
-      <div className="absolute border-border border-[1px] rounded-lg -bottom-2 translate-y-full w-full h-64" style={{display: open ? "block" : "none"}}>
+      <Input type="text" placeholder="Search Category..." onInput={handleInput} value={value}/>
+      <div className="absolute bg-background border-border border-[1px] rounded-lg -bottom-2 translate-y-full w-full h-64" style={{display: open ? "block" : "none"}}>
         <ScrollArea className="h-full">
           <ScrollBar/>
             {filteredCategories.map((category, i) => (
               <>
-                <Button key={category.value} variant="link" className="w-full justify-start" onClick={() => setValue(category.label)}>
+                <Button key={category.value} variant="link" className="w-full justify-start" onClick={() => handleSelect(category.label)}>
                   {category.label}
                 </Button>
                 {

@@ -11,17 +11,8 @@ import { IoClose } from "react-icons/io5";
 import { Badge } from "../ui/badge";
 import SearchCategory from "./SearchCategory";
 import { useGlobalState } from "@/app/GlobalContext";
+import CategoryBadge from "./CategoryBadge";
 
-// const categories = [
-//     "Voice Recognition",
-//     "Image Recognition",
-//     "Text Recognition",
-//     "Data Analysis",
-//     "Data Visualization",
-//     "Data Preprocessing",
-//     "Image Generation",
-//     "Text Generation",
-// ]
 
 export default function Filter() {
     const { categories }  = useGlobalState()
@@ -67,21 +58,10 @@ export default function Filter() {
                 <SearchCategory />
                 <div className="flex flex-wrap mt-2 gap-1">
                     {categories.map((category) => (
-                        <Category key={category} name={category}/>
+                        <CategoryBadge key={category} name={category}/>
                     ))}
                 </div>
             </div>
         </div>
-    )
-}
-
-function Category({ name }: { name: string }) {
-    return (
-        <Badge variant="secondary" className="p-2 flex items-center gap-2 justify-between">
-            {name}
-            <button role="button" aria-label={"remove "+name} className="hover:ring-8 hover:bg-destructive group outline-none focus:ring-4 ring-destructive rounded-full">
-                <IoClose className="text-red-500 group-hover:text-destructive-foreground"/>
-            </button>
-        </Badge>
     )
 }
