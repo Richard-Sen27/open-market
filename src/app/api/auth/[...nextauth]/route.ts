@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { getCsrfToken } from 'next-auth/react'
 import { SiweMessage } from 'siwe'
 
-const handler = NextAuth({
+const { handlers: { GET, POST }} = NextAuth({
 	providers: [
 		CredentialsProvider({
 			name: "Ethereum",
@@ -59,4 +59,4 @@ const handler = NextAuth({
 	}
 })
 
-export { handler as GET, handler as POST }
+export { GET, POST }
