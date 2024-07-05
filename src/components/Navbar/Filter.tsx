@@ -74,7 +74,7 @@ export default function Filter() {
 
 function Category({ name }: { name: string }) {
     return (
-        <Badge variant="secondary" className="p-2 flex items-center gap-2">
+        <Badge variant="secondary" className="p-2 flex items-center gap-2 flex-grow justify-between">
             {name}
             <button role="button" aria-label={"remove "+name} className="hover:ring-8 hover:bg-destructive group outline-none focus:ring-4 ring-destructive rounded-full">
                 <IoClose className="text-destructive group-hover:text-destructive-foreground"/>
