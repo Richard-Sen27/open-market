@@ -38,7 +38,6 @@ export default function SearchCategory() {
   }
 
   useEffect(() => {
-    console.log("open", open)
     if (!open) setValue("")
     if (open && value === "") setOpen(false)
   }, [open, value])
