@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
@@ -9,7 +10,7 @@ export default function Navbar() {
     return (
         <nav className="w-[430px] flex flex-col justify-between gap-4 h-full relative">
             <div>
-                <h1 className="p-4 text-2xl font-bold">Open Market</h1>
+                <Link href="/browse"><h2 className="p-4 text-2xl font-bold">Open Market</h2></Link>
                 <Separator orientation="horizontal" className="h-[1.5px]"/>
                 <ul className="p-4 mt-2 flex flex-col gap-4">
                     <Input type="text" placeholder="Search for models" />
@@ -18,13 +19,17 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-4 mx-4 mb-2">
-                    <Button className="w-full flex justify-center gap-2" variant="outline">
-                        <MdFileUpload className="text-primary text-lg"/> 
-                        Upload Model
+                    <Button variant="outline" asChild>
+                        <Link href="/upload" className="w-full flex justify-center gap-2">
+                            <MdFileUpload className="text-primary text-lg"/> 
+                            Upload Model
+                        </Link>
                     </Button>
-                    <Button className="w-full flex justify-center gap-2" variant="outline">
-                    <MdDashboard className="text-primary text-lg"/>
-                        View Uploads
+                    <Button variant="outline" asChild>
+                        <Link href="/my-uploads" className="w-full flex justify-center gap-2">
+                            <MdDashboard className="text-primary text-lg"/>
+                            View Uploads
+                        </Link>
                     </Button>
                 </div>
                 <Separator orientation="horizontal" className="h-[1.5px]"/>

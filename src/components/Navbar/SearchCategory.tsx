@@ -20,7 +20,7 @@ const catValues = [
 ]
 
 export default function SearchCategory() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
   const [filteredCategories, setFilteredCategories] = useState(catValues)
   const { categories, setCategories } = useGlobalState()
