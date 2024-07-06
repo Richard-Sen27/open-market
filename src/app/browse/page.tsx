@@ -24,9 +24,9 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 	})
 
 	return (
-		<main className="flex flex-col h-full">
+		<main className="flex flex-col h-full p-6">
 			<NavTitle title="" breadcrumb={[{label: "Browse", href: "/browse"}]}/>
-			<div className="grid grid-cols-1 min-[1700px]:grid-cols-2 mt-6 gap-5">
+			<div className="grid grid-cols-1 min-[1700px]:grid-cols-2 mt-4 gap-5">
 				{
 					contents
 						.filter((model) => model.published)

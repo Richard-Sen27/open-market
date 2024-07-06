@@ -12,7 +12,7 @@ export default async function Page({ params } : { params: { id: string }}) {
     })
 
     return (
-        <main className="flex flex-col h-full">
+        <main className="flex flex-col h-full p-6 mt-5">
             <NavTitle 
                 title={model?.title || ""} 
                 breadcrumb={[
