@@ -11,6 +11,7 @@ import { isError } from "util"
 import LoadingComponent from "@/components/LoadingComponent"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { NFTData } from "../CharactersList"
+import NavTitle from "@/components/NavTitle"
 
 interface Message {
 	role: string
@@ -115,6 +116,7 @@ export default function ChatList({ id }: { id: string }) {
 
 	return (
 		<div className="h-full">
+			<NavTitle title={`Chat with ${chatData.name}`} />
 			<ScrollArea style={{height: "calc(100vh - 66px)"}} ref={scrollAreaRef}>
 				<div className="p-8 flex flex-col gap-4 relative flex-1 h-full">
 					{
