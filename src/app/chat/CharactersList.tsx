@@ -32,8 +32,11 @@ export default function CharactersList({ limit = 10 }: { limit: number } = { lim
 		return <LoadingComponent />
 	}
 
+	console.log(data)
+
 	return (
 		<p>
+			gdfyuiop
 			{/* {data} */}
 		</p>
 	)
