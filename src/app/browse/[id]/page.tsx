@@ -5,6 +5,9 @@ import NavTitle from "@/components/NavTitle";
 import Image from "next/image";
 import { IoMdDownload } from "react-icons/io";
 import { numberDots } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { FaEthereum } from "react-icons/fa";
 
 export default async function Page({ params } : { params: { id: string }}) {
 
@@ -13,7 +16,7 @@ export default async function Page({ params } : { params: { id: string }}) {
     })
 
     return (
-        <main className="flex flex-col h-full p-6 mt-5 gap-4">
+        <main className="flex flex-col h-full p-6 mt-4 gap-6">
             <NavTitle 
                 title={model?.title || ""} 
                 breadcrumb={[
@@ -28,17 +31,27 @@ export default async function Page({ params } : { params: { id: string }}) {
                         <Image src={model?.image || ""} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
                     </div>
                 </Card>
-                <Card className="flex-grow">
-                    <div className="flex justify-between items-center">
-                        <CardHeader>
-                            <CardTitle>{model?.title}</CardTitle>
-                            <p className="opacity-40">by {model?.authorId}</p> 
-                        </CardHeader>
-                        <div className="mr-6 flex items-center gap-1 text-2xl">
-                            {numberDots(model?.downloads || 0)}
-                            <IoMdDownload className="text-3xl text-green-500"/>
+                <Card className="flex-grow flex flex-col justify-between">
+                    <CardHeader>
+                        <div className="flex justify-between items-center">
+                            <div className="flex flex-col gap-2">
+                                <CardTitle>{model?.title}</CardTitle>
+                                <p className="opacity-40">by {model?.authorId}</p> 
+                            </div>
+                            <div className="mr-6 flex items-center gap-1 text-2xl">
+                                {numberDots(model?.downloads || 0)}
+                                <IoMdDownload className="text-3xl text-green-500"/>
+                            </div>
                         </div>
-                    </div>
+                    </CardHeader>
+                    <CardContent className="mt-auto">
+                        <div className="flex justify-between">
+                            <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{model?.price} <FaEthereum /></Badge>
+                            <Button variant="default" className="max-w-32 bg-green-500 hover:bg-green-700 w-full">
+                                Get Model
+                            </Button>
+                        </div>  
+                    </CardContent>
                 </Card>
             </div>
             <div>
@@ -49,7 +62,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        {model?.description}
+                        {model?.description || ""}
                     </CardContent>
                 </Card>
             </div>
