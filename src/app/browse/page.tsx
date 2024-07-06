@@ -39,6 +39,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 								description={model.description} 
 								downloads={model.downloads} 
 								price={model.price / 100} 
+								type={model.type}
 								image={model.image} 
 							/>
 						))

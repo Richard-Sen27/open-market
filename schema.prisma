@@ -10,6 +10,7 @@ datasource db {
 
 model Dataset {
   id        String     @default(cuid()) @id
+  type	EntityType	   @default(DATASET)
   title     String
   description   String @db.Text
   published Boolean @default(false)
@@ -19,6 +20,11 @@ model Dataset {
   downloads Int
   image String
   files String[]
+}
+
+enum EntityType {
+	MODEL
+	DATASET	
 }
 
 model User {
