@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAccount, useChainId, useReadContract, useReadContracts, useWatchContractEvent, useWriteContract } from "wagmi"
 
 import { abi, contractConfig } from '@/lib/nft_contract'
@@ -9,6 +9,8 @@ import { Separator } from "@/components/ui/separator"
 import ProfileIcon from "@/components/ProfileIcon"
 import { isError } from "util"
 import LoadingComponent from "@/components/LoadingComponent"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { NFTData } from "../CharactersList"
 
 interface Message {
 	role: string
@@ -18,22 +20,17 @@ interface Message {
 const NFT_URL = "https://storage.googleapis.com/galadriel-assets/d8f2d423-f0d9-4e39-96fe-da7ab059037a.png"
 
 export default function ChatList({ id }: { id: string }) {
+	const scrollAreaRef = useRef<HTMLDivElement>(null)
+
 	const [message, setMessage] = useState("")
-	const [messages, setMessages] = useState<Message[]>([])	
+	const [messages, setMessages] = useState<Message[]>([])
+	const [waitingForNewMessage, setWaitingForNewMessage] = useState(false)
+	const [waitingForWaitingForNewMessage, setWaitingForWaitingForNewMessage] = useState(false)
 
-	// const {
-	// 	data: tokenURI,
-	// 	isError: tokenIsError,
-	// 	isPending: tokenIsPending
-	// } = useReadContract({
-	// 	address: CONTRACT_ADDRESS,
-	// 	functionName: 'tokenURI',
-	// 	args: [BigInt(id)],
-	// 	chainId: 696969,
-	// 	abi
-	// })
+	const { data: contractData, isPending: contractIsPending, isError: contractIsError } = useReadContract({ ...contractConfig, functionName: "chatRuns", args: [BigInt(id)] })
+	const { data: nftData, isPending: nftDataIsPending, isError: nftDataIsError } = useReadContract({ ...contractConfig, functionName: "nftData", args: [((contractData ?? [undefined])[0]) as any] })
 
-	const { data, isError, isPending } = useReadContracts({
+	const { data, isError, isPending, refetch } = useReadContracts({
 		contracts: [
 			{
 				...contractConfig,
@@ -49,7 +46,19 @@ export default function ChatList({ id }: { id: string }) {
 		]
 	})
 
-	const { writeContract } = useWriteContract()
+	useEffect(() => {
+		if (waitingForWaitingForNewMessage || waitingForNewMessage) {
+			const interval = setInterval(() => {
+				refetch()
+			}, 1000)
+
+			return () => {
+				clearInterval(interval)
+			}
+		}
+	}, [waitingForWaitingForNewMessage, waitingForNewMessage, refetch])
+
+	const { writeContractAsync } = useWriteContract()
 
 	useEffect(() => {
 		if (data == null) return
@@ -64,48 +73,75 @@ export default function ChatList({ id }: { id: string }) {
 		setMessages(messagesData.map((m, i) => ({ content: m, role: rolesData[i] })))
 	}, [data])
 
-	if (isError) {
+	useEffect(() => {
+		scrollAreaRef.current?.scrollTo(0, scrollAreaRef.current.scrollHeight)
+		console.log(scrollAreaRef.current)
+	}, [messages, scrollAreaRef])
+
+	useEffect(() => {
+		if (waitingForWaitingForNewMessage && messages[messages.length - 1].role == 'user') {
+			setWaitingForNewMessage(true)
+			setWaitingForWaitingForNewMessage(false)
+		}
+	}, [waitingForWaitingForNewMessage, messages])
+
+	useEffect(() => {
+		if (waitingForNewMessage && messages[messages.length - 1].role == 'assistant') {
+			setWaitingForNewMessage(false)
+		}
+	}, [waitingForNewMessage, messages])
+
+
+	if (isError || contractIsError || nftDataIsError) {
 		return <p>Error</p>
 	}
 
-	if (isPending) {
+	if (isPending || contractIsPending || nftDataIsPending) {
 		return <LoadingComponent />
 	}
 
-	function handleSubmit() {
-		writeContract({
+	async function handleSubmit() {
+		await writeContractAsync({
 			...contractConfig,
 			functionName: 'addMessage',
 			args: [message, BigInt(id)]
 		})
+
+		setMessage("")
+		setWaitingForWaitingForNewMessage(true)
 	}
 
+	const chatData: NFTData = { name: nftData[0], url: nftData[1] }
+
 	return (
-		<>
-			<div className="p-8 flex flex-col gap-4 relative flex-1 h-full">
-				{
-					messages
-						.filter((m) => m.role != "system")
-						.map((m) => (
-							<div className="flex gap-4 items-center">
-								<div
-									className="rounded-xl w-12 h-12 overflow-clip flex-shrink-0"
-								>
-									{
-										m.role == 'user' ?
-											<ProfileIcon /> :
-											<img src={NFT_URL} className="w-full h-full" />
-									}
+		<div className="h-full">
+			<ScrollArea style={{height: "calc(100vh - 66px)"}} ref={scrollAreaRef}>
+				<div className="p-8 flex flex-col gap-4 relative flex-1 h-full">
+					{
+						messages
+							.filter((m) => m.role != "system")
+							.map((m) => (
+								<div className="flex gap-4 items-start">
+									<div
+										className="rounded-xl w-12 h-12 overflow-clip flex-shrink-0 border border-border"
+									>
+										{
+											m.role == 'user' ?
+												<ProfileIcon /> :
+												<img src={chatData.url} className="w-full h-full" />
+										}
+									</div>
+									{m.content}
 								</div>
-								{m.content}
-							</div>
-						))
-				}
-			</div>
+							))
+					}
+				</div>
+				<ScrollBar orientation="vertical" />
+			</ScrollArea>
 			<Separator orientation="horizontal" className="h-[1.5px]" />
-			<div className="h-16 p-3 flex gap-2 items-center">
+			<div className="h-16 p-3 flex gap-2 items-center flex-shrink-0">
 				<input
-					className="w-full border rounded-full flex items-center h-9 resize-none overflow-hidden bg-background px-4 py-2"
+					className="w-full border rounded-xl flex items-center h-9 resize-none overflow-hidden bg-background px-4 py-2"
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 					onKeyDown={(e) => {
@@ -118,6 +154,6 @@ export default function ChatList({ id }: { id: string }) {
 					<FaPaperPlane className="w-4 h-4 text-gray-800" />
 				</button>
 			</div>
-		</>
+		</div>
 	)
 }
