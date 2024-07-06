@@ -23,7 +23,7 @@ export default function Profile() {
 	const { isConnected, address } = useAccount()
 	const { signMessageAsync } = useSignMessage()
 
-	const { isDarkMode, toggle, enable, disable } = useDarkMode()
+	const { isDarkMode, toggle, enable, disable } = useDarkMode({ localStorageKey: 'theme' })
 
 	if (!useIsClient()) return null
 

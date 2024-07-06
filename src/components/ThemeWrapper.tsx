@@ -7,7 +7,7 @@ import { useDarkMode, useIsClient } from "usehooks-ts"
 const inter = Inter({ subsets: ["latin"] });
 
 export default function ThemeWrapper({ children }: { children: React.ReactElement }) {
-	const { isDarkMode, toggle, enable, disable } = useDarkMode()
+	const { isDarkMode, toggle, enable, disable } = useDarkMode({ localStorageKey: 'theme' })
 
 	if (!useIsClient()) return null
 
