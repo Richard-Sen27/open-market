@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Badge } from "./ui/badge";
 import Link from "next/link";
+import { numberDots } from "@/lib/utils";
 
 
 export default function ModelCard({ id, title, author, description, price, downloads, image} : 
@@ -33,7 +34,7 @@ export default function ModelCard({ id, title, author, description, price, downl
                         </div>
                     </CardHeader>
                     <div className="mr-6 flex gap-1">
-                        {downloads}
+                        {numberDots(downloads)}
                         <IoMdDownload className="text-2xl text-green-500"/>
                     </div>
                 </div>
