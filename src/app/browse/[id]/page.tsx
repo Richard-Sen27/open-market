@@ -1,13 +1,32 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FaCircleInfo } from "react-icons/fa6";
-import { BsCpuFill } from "react-icons/bs";
+import prisma from "@/lib/prisma";
+import NavTitle from "@/components/NavTitle";
+import Image from "next/image";
 
 
-export default function Page({ params } : { params: { id: string }}) {
+export default async function Page({ params } : { params: { id: string }}) {
+
+    const model = await prisma.dataset.findUnique({
+        where: { id: params.id }
+    })
+
     return (
         <main className="flex flex-col h-full">
-            <h2 className="font-bold text-xl mb-5">{params.id}</h2>
-            <div className="grid grid-cols-2 gap-6">
+            <NavTitle 
+                title={model?.title || ""} 
+                breadcrumb={[
+                    {label: "Browse", href: "/browse"},
+                    {label: model?.title || "", href: model?.id || ""}
+                ]}
+            />
+            <div className="flex gap-6">
+                <Card>
+                    <div className="h-full p-4 w-64 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
+                        <Image src={model?.image || ""} alt="" width={150} height={150} className="z-10 aspect-square"/>
+                        <Image src={model?.image || ""} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
+                    </div>
+                </Card>
                 <Card>
                     <CardHeader>
                         <CardTitle className="flex gap-4 items-center">
@@ -15,22 +34,7 @@ export default function Page({ params } : { params: { id: string }}) {
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Impedit dolore ducimus eius minus earum, qui aliquid maiores provident architecto nulla voluptates unde asperiores beatae officia tempora! Odit eum porro nesciunt?
-                    </CardContent>
-                </Card>
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="flex gap-4 items-center">
-                            <BsCpuFill />
-                            Technical Aspects
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul>
-                            <li>Input:</li>
-                            <li>Output:</li>
-                            <li>Neurons:</li>
-                        </ul>
+                        {model?.description}
                     </CardContent>
                 </Card>
             </div>

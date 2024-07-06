@@ -1,6 +1,5 @@
 import ModelCard from "@/components/ModelCard";
 import NavTitle from "@/components/NavTitle";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import prisma from "@/lib/prisma";
 
 export default async function Home({ searchParams } : {searchParams: { [key: string]: string | string[] | undefined}}) {
@@ -26,14 +25,23 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 
 	return (
 		<main className="flex flex-col h-full">
-			<NavTitle title="Browse" />
-			<div className="flex flex-wrap mt-5 gap-5">
+			<NavTitle title="" breadcrumb={[{label: "Browse", href: "/browse"}]}/>
+			<div className="grid grid-cols-1 min-[1700px]:grid-cols-2 mt-6 gap-5">
 				{
 					contents
-					.filter((model) => model.published)
-					.map((model) => (
-						<ModelCard key={model.id} title={model.title} author={model.author!.id} description={model.description} downloads={model.downloads} price={model.price / 100} image={model.image} />
-					))
+						.filter((model) => model.published)
+						.map((model) => (
+							<ModelCard 
+								key={model.id} 
+								id={model.id} 
+								title={model.title} 
+								author={model.author!.id} 
+								description={model.description} 
+								downloads={model.downloads} 
+								price={model.price / 100} 
+								image={model.image} 
+							/>
+						))
 				}
 			</div>
 		</main>

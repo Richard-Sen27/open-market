@@ -12,6 +12,8 @@ type GlobalState = {
     allCategories: { label: string, value: string }[];
     navTitle: string;
     setNavTitle: (title: string) => void;
+    breadcrumb: Breadcrumb | null;
+    setBreadcrumb: (breadcrumb: Breadcrumb | null) => void;
 }
 
 const initialState: GlobalState = {
@@ -23,8 +25,12 @@ const initialState: GlobalState = {
     setCategories: () => {},
     allCategories: [],
     navTitle: '',
-    setNavTitle: () => {}
+    setNavTitle: () => {},
+    breadcrumb: null,
+    setBreadcrumb: () => {}
 }
+
+type Breadcrumb = { label: string, href: string }[]
 
 const GlobalStateContext = createContext<GlobalState>(initialState);
 
@@ -33,6 +39,7 @@ export default function GlobalContext({ children }: { children: React.ReactNode 
     const [filter, setFilter] = useState('')
     const [categories, setCategories] = useState<string[]>([])
     const [navTitle, setNavTitle] = useState('')
+    const [breadcrumb, setBreadcrumb] = useState<Breadcrumb | null>(null)
     const allCategories = [
         { label: "Voice Recognition", value: "voice-recognition" },
         { label: "Image Recognition", value: "image-recognition" },
@@ -51,7 +58,8 @@ export default function GlobalContext({ children }: { children: React.ReactNode 
                 filter, setFilter, 
                 categories, setCategories, 
                 allCategories, 
-                navTitle, setNavTitle
+                navTitle, setNavTitle,
+                breadcrumb, setBreadcrumb
             }}>
             {children}
         </GlobalStateContext.Provider>
