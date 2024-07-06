@@ -5,7 +5,7 @@ const nextConfig = {
 		return config;
 	},	
     images: {
-        domains: ['via.placeholder.com', 'cdn2.iconfinder.com', 'cdn3.iconfinder.com', 'cdn4.iconfinder.com', "cdn-icons-png.freepik.com"],
+        domains: ['via.placeholder.com', 'cdn2.iconfinder.com', 'cdn3.iconfinder.com', 'cdn4.iconfinder.com', "cdn-icons-png.freepik.com", "storage.googleapis.com"],
         remotePatterns: [
           {
             protocol: 'https',
