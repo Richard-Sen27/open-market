@@ -1,19 +1,47 @@
+"use client"
+
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import Filter from "./Filter";
 import { MdFileUpload, MdDashboard } from "react-icons/md";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useGlobalState } from "@/app/GlobalContext";
+import { Label } from "../ui/label";
 
 
 export default function Navbar() {
+    const { search, setSearch, categories } = useGlobalState()    
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
+    useEffect(() => {
+        const search = searchParams.get("search")        
+        if (search) setSearch(search)
+    }, [])
+
+    useEffect(() => {
+        const currentSearchParams = new URLSearchParams(window.location.search)
+        if (search) {
+            currentSearchParams.set("search", search)
+        } else {
+            currentSearchParams.delete("search")
+        }
+        router.push(`/browse?${currentSearchParams.toString()}`)
+    }, [search])
+
     return (
         <nav className="w-[430px] flex flex-col justify-between gap-4 h-full relative">
             <div>
                 <Link href="/browse"><h2 className="p-4 text-2xl font-bold">Open Market</h2></Link>
                 <Separator orientation="horizontal" className="h-[1.5px]"/>
                 <ul className="p-4 mt-2 flex flex-col gap-4">
-                    <Input type="text" placeholder="Search for models" />
+                    <div>
+                        <Label htmlFor="search" className="text-[16px]">Search</Label>
+                        <Input id="search" name="search" type="text" placeholder="Search for models" value={search} onChange={e => setSearch(e.target.value)}/>
+                    </div>
                     <Filter />
                 </ul>
             </div>
