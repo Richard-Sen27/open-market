@@ -35,7 +35,7 @@ export default function RootLayout({
 						<div className="flex flex-grow h-full overflow-y-auto">
 							<Navbar />
 							<Separator orientation="vertical" />
-							<ScrollArea className="w-full h-full p-4">
+							<ScrollArea className="w-full h-full">
 								<ScrollBar orientation="vertical"/>
 								{children}
 							</ScrollArea>

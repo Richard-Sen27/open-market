@@ -9,6 +9,6 @@ export default function ProfileIcon() {
 	if (!isConnected) return null
 
 	return (
-		<Identicon string={address} size={400} className="w-full h-full" />
+		<Identicon string={address} size={400} className="w-full h-full p-0.5" />
 	)
 }

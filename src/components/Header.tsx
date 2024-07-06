@@ -18,7 +18,7 @@ export default function Header() {
 	const { navTitle, breadcrumb } = useGlobalState()
 	return (
 		<div className="flex relative w-full">
-			<Link href="/browse" className=""><h2 className="p-4 text-2xl font-bold w-[351.86px]">Open Market</h2></Link>
+			<Link href="/browse" className=""><h2 className="p-4 text-2xl font-bold w-[350px]">Open Market</h2></Link>
 			<Separator orientation="vertical"/>
 			<div className="flex justify-between items-center p-3 w-full">
 				{ breadcrumb ? 

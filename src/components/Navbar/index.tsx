@@ -35,7 +35,7 @@ export default function Navbar() {
     }, [search])
 
     return (
-        <nav className="w-[430px] flex flex-col justify-between gap-4 h-full relative">
+        <nav className="w-[350px] flex flex-col justify-between gap-4 h-full relative shrink-0">
                 <ul className="p-4 flex flex-col gap-4">
                     <div>
                         <Label htmlFor="search" className="text-[16px]">Search</Label>

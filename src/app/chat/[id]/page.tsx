@@ -7,8 +7,6 @@ import ChatList from "./ChatList";
 
 export default async function ChatPage({ params } : { params: { id: string }}) {
 	return (
-		<div className="h-full flex flex-col">
-			<ChatList id={params.id} />
-		</div>
+		<ChatList id={params.id} />
 	)
 }
