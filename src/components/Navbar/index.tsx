@@ -19,10 +19,12 @@ export default function Navbar() {
 
     useEffect(() => {
         const search = searchParams.get("search")        
-        if (search) setSearch(search)
+        if (search && search.length > 0) setSearch(search)
     }, [])
 
     useEffect(() => {
+		if (search == null || search.length < 1) return
+		
         const currentSearchParams = new URLSearchParams(window.location.search)
         if (search) {
             currentSearchParams.set("search", search)

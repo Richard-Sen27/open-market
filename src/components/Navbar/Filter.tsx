@@ -27,12 +27,14 @@ export default function Filter(){
 
     useEffect(() => {
         const maxPrice = searchParams.get("maxPrice")
-        if (maxPrice) setMaxPrice(parseInt(maxPrice))
+        if (maxPrice && maxPrice.length > 0) setMaxPrice(parseInt(maxPrice))
         const type = searchParams.get("type")
-        if (type) setType(type)
+        if (type && type.length > 0) setType(type)
     }, [])
 
     useEffect(() => {
+		if (maxPrice == null) return
+
         const currentSearchParams = new URLSearchParams(window.location.search)
         if (maxPrice) {
             currentSearchParams.set("maxPrice", maxPrice.toString())
@@ -43,6 +45,8 @@ export default function Filter(){
     }, [maxPrice])
 
     useEffect(() => {
+		if (type == null || type.length < 1) return
+
         const currentSearchParams = new URLSearchParams(window.location.search)
         if (type) {
             currentSearchParams.set("type", type)
