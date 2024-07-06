@@ -2,8 +2,11 @@
 
 import LoadingComponent from "@/components/LoadingComponent"
 import { contractConfig } from "@/lib/nft_contract"
+import { config } from "@/lib/wagmi_config"
 import { useRouter } from "next/navigation"
-import { useInfiniteReadContracts, useReadContract, useWatchContractEvent, useWriteContract } from "wagmi"
+import { useEffect, useState } from "react"
+import { watchContractEvent } from "viem/actions"
+import { useInfiniteReadContracts, usePublicClient, useReadContract, useTransactionConfirmations, useWatchContractEvent, useWriteContract } from "wagmi"
 
 export interface NFTData {
 	name: string
@@ -14,13 +17,28 @@ export default function CharactersList({ limit = 10 }: { limit: number } = { lim
 	const router = useRouter()
 	const { writeContractAsync } = useWriteContract()
 
-	useWatchContractEvent({
-		...contractConfig,
-		eventName: 'ChatCreated',
-		onLogs(logs) {
-			console.log(logs)
+	const client = usePublicClient({ chainId: contractConfig.chainId })
+
+	useEffect(() => {
+		if (client == null) return
+		
+		const unmount = client.watchContractEvent({
+			address: contractConfig.address,
+			abi: contractConfig.abi,
+			eventName: 'ChatCreated',
+			onLogs: logs => {
+				console.log(logs)
+				logs.forEach((log) => {
+					console.log(log)
+					router.push(`/chat/${log.args.chatId}`)
+				})
+			}
+		})
+
+		return () => {
+			unmount()
 		}
-	})
+	}, [client, router])
 	
 	const { data, fetchNextPage, isPending, isError } = useInfiniteReadContracts({
 		cacheKey: 'nfts',

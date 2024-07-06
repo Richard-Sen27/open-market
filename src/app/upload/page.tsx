@@ -16,8 +16,8 @@ export default function Page() {
     const [selected, setSelected] = useState("model");
     return (
         <main className="flex flex-col h-full p-4">
-            <div className="flex items-center justify-between">
-                <h2 className="font-bold text-xl">Upload</h2>
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="font-bold text-3xl">Upload</h2>
                 <Select defaultValue="model" onValueChange={setSelected} value={selected}>
                     <SelectTrigger className="w-[180px]" >
                         <SelectValue placeholder="Select Upload"/>

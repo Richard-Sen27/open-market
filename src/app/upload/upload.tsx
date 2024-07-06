@@ -10,8 +10,8 @@ type ModelFormProps = {
     authorId: string;
 }
 
-export async function UploadModel({ title, description, price, thumbnail, authorId }: ModelFormProps) {
-    const f = await prisma.dataset.create({
+export async function uploadModel({ title, description, price, thumbnail, authorId }: ModelFormProps) {
+    return await prisma.dataset.create({
         data: {
             title: title,
             description: description,
@@ -22,6 +22,4 @@ export async function UploadModel({ title, description, price, thumbnail, author
             published: true
         }
     })
-    console.log("prisma return:", f)
-    console.log("Model uploaded")
 }
