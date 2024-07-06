@@ -41,7 +41,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 						))
 					}
 				</div>
-				<Pager />
+				{/* <Pager /> */}
 			</ScrollArea>
 		</main>
 	);
