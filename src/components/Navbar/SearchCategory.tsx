@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, Fragment, useEffect, useState } from "react"
 import { Input } from "../ui/input"
 import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
@@ -57,14 +57,14 @@ export default function SearchCategory() {
         <ScrollArea className="h-full">
           <ScrollBar/>
             {filteredCategories.map((category, i) => (
-              <>
-                <Button key={category.value} variant="link" className="w-full justify-start" onClick={() => handleSelect(category.label)}>
+              <Fragment key={category.value}>
+                <Button variant="link" className="w-full justify-start" onClick={() => handleSelect(category.label)}>
                   {category.label}
                 </Button>
                 {
                   (i !== filteredCategories.length - 1) && <Separator orientation="horizontal"/>    
                 }
-              </>
+              </Fragment>
             ))}
         </ScrollArea>
       </div>

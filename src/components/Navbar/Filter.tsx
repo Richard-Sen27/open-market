@@ -12,7 +12,11 @@ import { Badge } from "../ui/badge";
 import SearchCategory from "./SearchCategory";
 import { useGlobalState } from "@/app/GlobalContext";
 import CategoryBadge from "./CategoryBadge";
+import { FaEthereum } from "react-icons/fa";
 
+function roundTo(num: number, decimal: number): string {
+	return (Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal)).toFixed(decimal)
+}
 
 export default function Filter() {
     const { categories }  = useGlobalState()
@@ -28,11 +32,32 @@ export default function Filter() {
                         <SelectContent>
                             <SelectItem value="n/a">N/A</SelectItem>
                             <SelectItem value="0">Free</SelectItem>
-                            <SelectItem value="200">200</SelectItem>
-                            <SelectItem value="400">400</SelectItem>
-                            <SelectItem value="600">600</SelectItem>
-                            <SelectItem value="800">800</SelectItem>
-                            <SelectItem value="1000">1000+</SelectItem>
+                            <SelectItem value="20">
+								<div className="flex gap-2 items-center">
+									{roundTo(20/100, 2)} <FaEthereum />
+								</div>
+							</SelectItem>
+                            <SelectItem value="40">
+								<div className="flex gap-2 items-center">
+									{roundTo(40/100, 2)} <FaEthereum />
+								</div>
+							</SelectItem>
+                            <SelectItem value="60">
+								<div className="flex gap-2 items-center">
+									{roundTo(60/100, 2)} <FaEthereum />
+								</div>
+							</SelectItem>
+                            <SelectItem value="80">
+								<div className="flex gap-2 items-center">
+									{roundTo(80/100, 2)}
+									<FaEthereum />
+								</div>
+							</SelectItem>
+                            <SelectItem value="100">
+								<div className="flex gap-2 items-center">
+									{roundTo(100/100, 2)} <FaEthereum />
+								</div>
+							</SelectItem>
                         </SelectContent>
                     </Select>
                 </div>

@@ -53,10 +53,6 @@ const Identicon = (props: any) => {
         });
     }, [props]);
     
-    /**
-     * Updates the canvas every time updateCanvas changes,
-     * which happens every time when the props change.
-     */
     useEffect(() => {
         updateCanvas();
     }, [updateCanvas]);
