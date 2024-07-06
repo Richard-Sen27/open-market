@@ -27,7 +27,7 @@ export default function Header() {
 							{ breadcrumb.map((item, index) => 
 								<BreadcrumbItem key={index}>
 									<BreadcrumbLink href={ item.href }>{ item.label }</BreadcrumbLink>
-									<BreadcrumbSeparator/>
+									{ index < breadcrumb.length-1 && <BreadcrumbSeparator/> }
 								</BreadcrumbItem>
 							)}
 						</BreadcrumbList>
