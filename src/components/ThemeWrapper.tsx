@@ -12,7 +12,7 @@ export default function ThemeWrapper({ children }: { children: React.ReactElemen
 	if (!useIsClient()) return null
 
 	return (
-		<body className={cn(inter.className, "min-h-screen flex", isDarkMode ? "dark" : "")}>
+		<body className={cn(inter.className, "h-screen p-0 overflow-hidden", isDarkMode ? "dark" : "")} style={{ padding: 0}}>
 			{children}
 		</body>
 	)
