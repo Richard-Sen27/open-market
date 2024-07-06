@@ -18,6 +18,7 @@ model Dataset {
   price Int
   downloads Int
   image String
+  files String[]
 }
 
 model User {
