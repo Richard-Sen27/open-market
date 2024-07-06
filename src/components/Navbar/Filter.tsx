@@ -7,25 +7,66 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { IoClose } from "react-icons/io5";
-import { Badge } from "../ui/badge";
 import SearchCategory from "./SearchCategory";
 import { useGlobalState } from "@/app/GlobalContext";
 import CategoryBadge from "./CategoryBadge";
 import { FaEthereum } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 function roundTo(num: number, decimal: number): string {
 	return (Math.round(num * Math.pow(10, decimal)) / Math.pow(10, decimal)).toFixed(decimal)
 }
 
-export default function Filter() {
+export default function Filter(){
     const { categories }  = useGlobalState()
+    const [maxPrice, setMaxPrice] = useState<number | null>(null)
+    const [type, setType] = useState<string | null>(null)
+    const router = useRouter()
+    const searchParams = useSearchParams()
+
+    useEffect(() => {
+        const maxPrice = searchParams.get("maxPrice")
+        if (maxPrice) setMaxPrice(parseInt(maxPrice))
+        const type = searchParams.get("type")
+        if (type) setType(type)
+    }, [])
+
+    useEffect(() => {
+        const currentSearchParams = new URLSearchParams(window.location.search)
+        if (maxPrice) {
+            currentSearchParams.set("maxPrice", maxPrice.toString())
+        } else {
+            currentSearchParams.delete("maxPrice")
+        }
+        router.push(`/browse?${currentSearchParams.toString()}`)
+    }, [maxPrice])
+
+    useEffect(() => {
+        const currentSearchParams = new URLSearchParams(window.location.search)
+        if (type) {
+            currentSearchParams.set("type", type)
+        } else {
+            currentSearchParams.delete("type")
+        }
+        router.push(`/browse?${currentSearchParams.toString()}`)
+    }, [type])
+
+    const priceChange = (p: string) => {
+        const price = p === "n/a" ? null : parseInt(p)
+        setMaxPrice(price)
+    }
+    const typeChange = (t: string) => {
+        const type = t === "n/a" ? null : t
+        setType(type)
+    }
+
     return (
         <div className="flex flex-col gap-4">
             <div className="w-full flex gap-2">
                 <div className="w-full flex flex-col">
                     <h2>Max Price</h2>
-                    <Select defaultValue="n/a">
+                    <Select defaultValue="n/a" onValueChange={priceChange}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select Price"/>
                         </SelectTrigger>
@@ -64,7 +105,7 @@ export default function Filter() {
 
                 <div className="w-full flex flex-col">
                     <h2>Type</h2>
-                    <Select defaultValue="n/a">
+                    <Select defaultValue="n/a" onValueChange={typeChange} value={type || "n/a"}>
                         <SelectTrigger>
                             <SelectValue placeholder="Select Type" />
                         </SelectTrigger>
@@ -72,7 +113,7 @@ export default function Filter() {
                             <SelectItem value="n/a">N/A</SelectItem>
                             <SelectItem value="datasets">Datasets</SelectItem>
                             <SelectItem value="models">Models</SelectItem>
-                            <SelectItem value="notebooks">Anything</SelectItem>                            
+                            <SelectItem value="all">Anything</SelectItem>                            
                         </SelectContent>
                     </Select>
                 </div>

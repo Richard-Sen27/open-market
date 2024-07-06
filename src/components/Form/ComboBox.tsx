@@ -1,11 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, Fragment, useEffect, useState } from "react"
 import { Input } from "../ui/input"
 import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
-import { useGlobalState } from "@/app/GlobalContext"
 
 type ComboBoxProps = {
     options: KeyValuePair[];
@@ -56,14 +55,14 @@ export default function ComboBox({ options, selection, setSelection} : ComboBoxP
                 <ScrollArea className="h-full">
                     <ScrollBar/>
                     {filteredCategories?.map((category, i) => (
-                        <>
+                        <Fragment key={i}>
                             <Button key={category.value} variant="link" className="w-full justify-start" onClick={(e) => {e.preventDefault(); handleSelect(category.label)}}>
                                 {category.label}
                             </Button>
                             {
                                 (i !== filteredCategories.length - 1) && <Separator orientation="horizontal"/>    
                             }
-                        </>
+                        </Fragment>
                     ))}
                 </ScrollArea>
             </div>

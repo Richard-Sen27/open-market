@@ -28,6 +28,7 @@ import ComboBox from "@/components/Form/ComboBox"
 import { useGlobalState } from "../GlobalContext"
 import ListBadge from "@/components/Form/ListBadge"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { redirect } from "next/navigation"
 
 export default function ModelForm() {
   const [title, setTitle] = useState("");
@@ -94,6 +95,7 @@ export default function ModelForm() {
         thumbnail: thumbnail!.name,
         authorId: address?.toString()!
       })
+      redirect(`/browse?search=${title}`)
     } catch (error) {
       console.error(error);
       alert('Invalid form data');
