@@ -13,6 +13,9 @@ import { Badge } from "./ui/badge";
 import Link from "next/link";
 import { numberDots } from "@/lib/utils";
 
+function capitalize(s: string) {
+    return s[0].toUpperCase() + s.slice(1);
+}
 
 export default function ModelCard({ id, title, author, description, price, downloads, image, type } : 
     { 
@@ -33,11 +36,7 @@ export default function ModelCard({ id, title, author, description, price, downl
                             <p className="opacity-40">{author}</p>    
                         </div>
                     </CardHeader>
-					<Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{type}</Badge>
-                    {/* <div className="mr-6 flex gap-1">
-                        {numberDots(downloads)}
-                        <IoMdDownload className="text-2xl text-green-500"/>
-                    </div> */}
+					<Badge variant="secondary" className="text-nowrap text-md gap-2 mr-6">{capitalize(type.toLowerCase())}</Badge>
                 </div>
                 <CardContent className="flex flex-col justify-between h-full">
                     <p>{ description.slice(0, 150) }{ description.length > 50 ? "..." : "" }</p>
