@@ -10,6 +10,8 @@ type GlobalState = {
     categories: string[];
     setCategories: (categories: string[]) => void;
     allCategories: { label: string, value: string }[];
+    navTitle: string;
+    setNavTitle: (title: string) => void;
 }
 
 const initialState: GlobalState = {
@@ -19,7 +21,9 @@ const initialState: GlobalState = {
     setFilter: () => {},
     categories: [],
     setCategories: () => {},
-    allCategories: []
+    allCategories: [],
+    navTitle: '',
+    setNavTitle: () => {}
 }
 
 const GlobalStateContext = createContext<GlobalState>(initialState);
@@ -28,6 +32,7 @@ export default function GlobalContext({ children }: { children: React.ReactNode 
     const [search, setSearch] = useState('')
     const [filter, setFilter] = useState('')
     const [categories, setCategories] = useState<string[]>([])
+    const [navTitle, setNavTitle] = useState('')
     const allCategories = [
         { label: "Voice Recognition", value: "voice-recognition" },
         { label: "Image Recognition", value: "image-recognition" },
@@ -40,7 +45,14 @@ export default function GlobalContext({ children }: { children: React.ReactNode 
       ]
     
     return (
-        <GlobalStateContext.Provider value={{ search, setSearch, filter, setFilter, categories, setCategories, allCategories}}>
+        <GlobalStateContext.Provider value={
+            { 
+                search, setSearch, 
+                filter, setFilter, 
+                categories, setCategories, 
+                allCategories, 
+                navTitle, setNavTitle
+            }}>
             {children}
         </GlobalStateContext.Provider>
     )

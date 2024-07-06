@@ -69,10 +69,8 @@ export default function Profile() {
 					</button>
 				) : (
 					<DropdownMenu>
-						<DropdownMenuTrigger asChild>
-							<button className='focus:outline-none'>
-								<Identicon string={address} size={400} className="w-8 h-8 rounded-full" />
-							</button>
+						<DropdownMenuTrigger>
+							<Identicon string={address} size={400} className="w-8 h-8 rounded-full" />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="w-56">
 							<DropdownMenuLabel>My Account</DropdownMenuLabel>

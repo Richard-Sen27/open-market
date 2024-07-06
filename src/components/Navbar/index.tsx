@@ -36,17 +36,13 @@ export default function Navbar() {
 
     return (
         <nav className="w-[430px] flex flex-col justify-between gap-4 h-full relative">
-            <div>
-                <Link href="/browse"><h2 className="p-4 text-2xl font-bold">Open Market</h2></Link>
-                <Separator orientation="horizontal" className="h-[1.5px]"/>
-                <ul className="p-4 mt-2 flex flex-col gap-4">
+                <ul className="p-4 flex flex-col gap-4">
                     <div>
                         <Label htmlFor="search" className="text-[16px]">Search</Label>
                         <Input id="search" name="search" type="text" placeholder="Search for models" value={search} onChange={e => setSearch(e.target.value)}/>
                     </div>
                     <Filter />
                 </ul>
-            </div>
             <div className="flex flex-col gap-2">
                 <div className="flex gap-4 mx-4 mb-2">
                     <Button variant="outline" asChild>
@@ -67,7 +63,6 @@ export default function Navbar() {
                     &copy; 2024 Open Market
                 </div>
             </div>
-            {/* <div className="-z-10 absolute w-1/3 h-2/3 top-1/2 left-1/2 rotate-6 blur-3xl -translate-x-1/2 -translate-y-1/2 bg-green-500"/> */}
         </nav>
     );
 }

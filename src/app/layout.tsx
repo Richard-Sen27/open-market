@@ -8,6 +8,8 @@ import { cookieToInitialState } from 'wagmi'
 import { config } from "@/lib/wagmi_config";
 import { headers } from "next/headers";
 import ThemeWrapper from "@/components/ThemeWrapper";
+import Header from "@/components/Header";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export const metadata: Metadata = {
 	title: "Open Market",
@@ -28,11 +30,15 @@ export default function RootLayout({
 		<html lang="en">
 			<ThemeWrapper>
 				<Providers initialState={initialState}>
-					<div className="flex flex-1">
-						<Navbar />
-						<Separator orientation="vertical" />
-						<div className="w-full h-full">
-							{children}
+					<div className="flex flex-col h-full">
+						<Header />
+						<div className="flex flex-grow h-full overflow-y-auto">
+							<Navbar />
+							<Separator orientation="vertical" />
+							<ScrollArea className="w-full h-full p-4">
+								<ScrollBar orientation="vertical"/>
+								{children}
+							</ScrollArea>
 						</div>
 					</div>
 				</Providers>
