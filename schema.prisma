@@ -9,17 +9,20 @@ datasource db {
 }
 
 model Dataset {
-  id        String     @default(cuid()) @id
-  type	EntityType	   @default(DATASET)
-  title     String
-  description   String @db.Text
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
-  price Int
-  downloads Int
-  image String
-  files String[]
+  id				String     @default(cuid()) @id
+
+  type				EntityType	   @default(DATASET)
+  title				String
+  description		String @db.Text
+  published			Boolean @default(false)
+  author			User?   @relation(fields: [authorId], references: [id])
+  authorId			String?
+  price				Int
+  downloads			Int
+  image				String
+  files 			String[]
+
+  superDatasets		SuperDataset[]
 }
 
 enum EntityType {
@@ -27,9 +30,25 @@ enum EntityType {
 	DATASET	
 }
 
-model User {
-  id	String	@id
+model SuperDataset {
+	id				String @default(cuid()) @id
 
-  datasets	Dataset[]
+	title			String
+	description		String @db.Text
+	author			User?   @relation(fields: [authorId], references: [id])
+	authorId		String?
+	downloads		Int
+	image			String
+	price 			Int
+
+	datasets		Dataset[]
+}
+
+model User {
+  id				String	@id
+
+  datasets			Dataset[]
+  superDatasets		SuperDataset[]
+
   @@map(name: "users")
 }
