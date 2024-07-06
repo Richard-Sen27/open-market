@@ -7,6 +7,7 @@ import { injected } from 'wagmi/connectors'
 import Identicon from '@/components/Identicons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown';
 import { Button } from './ui/button';
+import { useIsClient } from 'usehooks-ts';
 
 export default function Profile() {
 	const { connectAsync } = useConnect()
@@ -31,7 +32,7 @@ export default function Profile() {
 			const data = await signMessageAsync({ message: message.prepareMessage() })
 			console.log('signed message', data)
 
-			const { data: signature, error } = await signMessageAsync({
+			const signature = await signMessageAsync({
 				message: message.prepareMessage(),
 			})
 			signIn('credentials', {
@@ -46,8 +47,10 @@ export default function Profile() {
 	}
 
 	const handleLogout = async () => {
-		signOut({ redirect: true })
+		signOut()
 	}
+
+	if (!useIsClient()) return null
 
 	return (
 		<div>

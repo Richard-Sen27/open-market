@@ -52,18 +52,18 @@ export default function ComboBox({ options, selection, setSelection} : ComboBoxP
     return (
         <div className="w-full relative">
             <Input type="text" placeholder="Search Category..." onInput={handleInput} value={value} onFocus={() => setOpen(true)}/>
-            <div className="absolute bg-background border-border border-[1px] rounded-lg -bottom-2 translate-y-full w-full h-64" style={{display: open ? "block" : "none"}}>
+            <div className="z-10 absolute bg-background border-border border-[1px] rounded-lg -bottom-2 translate-y-full w-full h-64" style={{display: open ? "block" : "none"}}>
                 <ScrollArea className="h-full">
-                <ScrollBar/>
+                    <ScrollBar/>
                     {filteredCategories?.map((category, i) => (
-                    <>
-                        <Button key={category.value} variant="link" className="w-full justify-start" onClick={(e) => {e.preventDefault(); handleSelect(category.label)}}>
-                            {category.label}
-                        </Button>
-                        {
-                            (i !== filteredCategories.length - 1) && <Separator orientation="horizontal"/>    
-                        }
-                    </>
+                        <>
+                            <Button key={category.value} variant="link" className="w-full justify-start" onClick={(e) => {e.preventDefault(); handleSelect(category.label)}}>
+                                {category.label}
+                            </Button>
+                            {
+                                (i !== filteredCategories.length - 1) && <Separator orientation="horizontal"/>    
+                            }
+                        </>
                     ))}
                 </ScrollArea>
             </div>
