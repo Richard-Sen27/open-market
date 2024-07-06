@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useCallback, useEffect, useRef } from 'react';
 import md5 from 'md5'
 
