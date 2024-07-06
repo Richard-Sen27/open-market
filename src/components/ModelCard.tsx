@@ -41,9 +41,9 @@ export default function ModelCard({ title, author, description, price, downloads
                     <p>{description}</p>
                     <div className="flex gap-4 items-center justify-between mt-6">
                         <Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{price} <FaEthereum /></Badge>
-                        <Link href={`/browse/`}>
-                            <Button variant="default" className="max-w-32 bg-green-500 hover:bg-green-700 w-full">Get Model</Button>
-                        </Link>
+                        <Button variant="default" asChild className="max-w-32 bg-green-500 hover:bg-green-700 w-full">
+                            <Link href={`/browse/${title}`}>Get Model</Link>
+                        </Button>
                     </div>
                 </CardContent>
 

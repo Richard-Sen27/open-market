@@ -7,23 +7,12 @@ import { ScrollArea, ScrollBar } from "../ui/scroll-area"
 import { Separator } from "../ui/separator"
 import { useGlobalState } from "@/app/GlobalContext"
 
-// apply content of categories to categories
-const catValues = [
-  { label: "Voice Recognition", value: "voice-recognition" },
-  { label: "Image Recognition", value: "image-recognition" },
-  { label: "Text Recognition", value: "text-recognition" },
-  { label: "Data Analysis", value: "data-analysis" },
-  { label: "Data Visualization", value: "data-visualization" },
-  { label: "Data Preprocessing", value: "data-preprocessing" },
-  { label: "Image Generation", value: "image-generation" },
-  { label: "Text Generation", value: "text-generation" },
-]
 
 export default function SearchCategory() {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
-  const [filteredCategories, setFilteredCategories] = useState(catValues)
-  const { categories, setCategories } = useGlobalState()
+  const { categories, setCategories, allCategories } = useGlobalState()
+  const [filteredCategories, setFilteredCategories] = useState(allCategories)
 
   const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value)
@@ -44,7 +33,7 @@ export default function SearchCategory() {
 
   useEffect(() => {
     setFilteredCategories(
-      catValues.filter(category =>
+      allCategories.filter(category =>
         category.label.toLowerCase().includes(value) && categories.indexOf(category.label) === -1
       )
     )
