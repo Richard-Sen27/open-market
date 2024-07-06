@@ -27,7 +27,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 	return (
 		<main className="flex flex-col h-full">
 			<NavTitle title="Browse" />
-			<div className="flex flex-wrap mt-5 gap-5">
+			<div className="flex flex-wrap gap-5 p-6">
 				{
 					contents
 					.filter((model) => model.published)

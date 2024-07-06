@@ -5,7 +5,7 @@ import { BsCpuFill } from "react-icons/bs";
 
 export default function Page({ params } : { params: { id: string }}) {
     return (
-        <main className="flex flex-col h-full">
+        <main className="flex flex-col h-full p-6">
             <h2 className="font-bold text-xl mb-5">{params.id}</h2>
             <div className="grid grid-cols-2 gap-6">
                 <Card>
