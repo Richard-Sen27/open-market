@@ -11,7 +11,7 @@ import ChatMessasge from "./ChatMessage";
 import LoadingComponent from "@/components/LoadingComponent";
 
 
-export default function Chat() {
+export default function Chat({ description }: { description: string }) {
     const [chat, setChat] = useState<{message: string, type: "sent" | "recieved" | "error"}[]>([])
     const [prompt, setPrompt] = useState('')
     const [loading, setLoading] = useState(false)
@@ -20,17 +20,15 @@ export default function Chat() {
         e.preventDefault()
         if (prompt === '') return
 
-        setChat([...chat, {message: prompt, type: "sent"}])
-        
+        setChat((old) => [...old, {message: prompt, type: "sent"}])
+        setPrompt('')
+
         setLoading(true)
         await requestMessage()
         setLoading(false)
-        
-        setPrompt('')
     }
 
     const requestMessage = async () => {
-
         const key = process.env.NEXT_PUBLIC_REP_API_TOKEN
 
         if (!key) {
@@ -45,9 +43,13 @@ export default function Chat() {
         const raw = JSON.stringify({
             "model": "gpt-3.5-turbo",
             "messages": [
+				{
+					"role": "system",
+					"content": `You are an assistant that is supposed to tell users about the following model: ${description}`
+				},
                 {
-                "role": "user",
-                "content": prompt
+					"role": "user",
+					"content": prompt
                 }
             ],
             "temperature": 1
@@ -84,7 +86,7 @@ export default function Chat() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle className="flex gap-4 items-center"><IoChatboxEllipses/>Dataset Chat</CardTitle>
+                <CardTitle className="flex gap-4 items-center"><IoChatboxEllipses/>Model Chat</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
                 <ScrollArea id="chat-area" className="h-96 scroll-smooth">

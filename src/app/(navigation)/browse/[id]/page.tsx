@@ -9,6 +9,7 @@ import { FaDatabase, FaEthereum } from "react-icons/fa";
 import Chat from "./Chat";
 import PurchaseButton from '@/components/PurchaseButton'
 import FilesList from '@/components/FilesList'
+import Markdown from 'react-markdown'
 
 export default async function Page({ params } : { params: { id: string }}) {
     const entry = await prisma.dataset.findUnique({
@@ -64,11 +65,13 @@ export default async function Page({ params } : { params: { id: string }}) {
                             <FaCircleInfo/> General Info
                         </CardTitle>
                     </CardHeader>
-                    <CardContent>
-                        {entry?.description || ""}
+                    <CardContent className="prose max-w-full">
+						<Markdown>
+                        	{entry?.description || ""}
+						</Markdown>
                     </CardContent>
                 </Card>
-                { entry?.type === "MODEL" && <Chat /> }
+                { entry?.type === "MODEL" && <Chat description={entry?.description ?? ""} /> }
             </div>
 
 			<FilesList
