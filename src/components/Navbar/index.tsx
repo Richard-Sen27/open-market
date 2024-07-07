@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
 import Filter from "./Filter";
-import { MdFileUpload, MdDashboard } from "react-icons/md";
+import { MdFileUpload, MdDashboard, MdChat } from "react-icons/md";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useGlobalState } from "@/app/GlobalContext";
@@ -63,9 +63,11 @@ export default function Navbar() {
                         </Link>
                     </Button>
                     <Button variant="outline" asChild>
-                        <Link href="/my-uploads" className="w-full flex justify-center gap-2">
-                            <MdDashboard className="text-primary text-lg" />
-                            View Uploads
+                        <Link href="/chat" className="w-full flex justify-center gap-2">
+                            {/* <MdDashboard className="text-primary text-lg" />
+                            View Uploads */}
+                            <MdChat className="text-primary text-lg" />
+                            Chat
                         </Link>
                     </Button>
                 </div>
