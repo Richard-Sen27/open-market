@@ -102,7 +102,7 @@ export default function ChatList({ id }: { id: string }) {
 	}
 
 	async function handleSubmit() {
-		await switchChainAsync({ chainId: 1 })
+		await switchChainAsync({ chainId: 696969 })
 		await writeContractAsync({
 			...contractConfig,
 			functionName: 'addMessage',

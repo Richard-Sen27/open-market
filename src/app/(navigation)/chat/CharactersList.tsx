@@ -6,7 +6,7 @@ import { config } from "@/lib/wagmi_config"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { watchContractEvent } from "viem/actions"
-import { useInfiniteReadContracts, usePublicClient, useReadContract, useTransactionConfirmations, useWatchContractEvent, useWriteContract } from "wagmi"
+import { useInfiniteReadContracts, usePublicClient, useReadContract, useSwitchChain, useTransactionConfirmations, useWatchContractEvent, useWriteContract } from "wagmi"
 
 export interface NFTData {
 	name: string
@@ -15,6 +15,7 @@ export interface NFTData {
 
 export default function CharactersList({ limit = 10 }: { limit: number } = { limit: 10 }) {
 	const router = useRouter()
+	const { switchChainAsync } = useSwitchChain()
 	const { writeContractAsync } = useWriteContract()
 
 	const client = usePublicClient({ chainId: contractConfig.chainId })
@@ -74,6 +75,7 @@ export default function CharactersList({ limit = 10 }: { limit: number } = { lim
 		.map((x: any) => ({ name: x[0], url: x[1] }))
 	
 	async function chatWith(id: number) {
+		await switchChainAsync({ chainId: 696969 })
 		await writeContractAsync({
 			...contractConfig,
 			functionName: 'startChat',

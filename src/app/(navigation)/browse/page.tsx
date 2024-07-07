@@ -59,7 +59,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 	return (
 		<main className="flex flex-col h-full p-6">
 			<NavTitle title="" breadcrumb={[{label: "Browse", href: "/browse"}]}/>
-			<div className="grid grid-cols-1 no-min-[1700px]:grid-cols-2 mt-4 gap-5">
+			<div className="grid grid-cols-1 mt-4 gap-5">
 				{
 					mergedContents
 						.filter((model: any) => model.data.published || true)

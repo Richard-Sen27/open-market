@@ -121,7 +121,7 @@ export default function ModelForm() {
 			<Card className="flex">
 				<div className="h-full w-64 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
 					<img src={thumbnailUrl ? thumbnailUrl : Placeholder.src} alt="" width={150} height={150} className="z-10 aspect-square" />
-					<img src={thumbnailUrl ? thumbnailUrl : Placeholder.src} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50" />
+					<img src={thumbnailUrl ? thumbnailUrl : Placeholder.src} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-3xl opacity-80" />
 				</div>
 				<Separator orientation="vertical" />
 				<div>
