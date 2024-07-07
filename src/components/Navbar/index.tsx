@@ -15,13 +15,18 @@ export default function Navbar() {
     const { search, setSearch } = useGlobalState();
     const router = useRouter();
     const searchParams = useSearchParams();
+	const [isLoaded, setIsLoaded] = useState(false)
 
     useEffect(() => {
         const search = searchParams.get("search");
         if (search && search.length > 0) setSearch(search);
+
+		setIsLoaded(true)
     }, []);
 
     useEffect(() => {
+		if ((search == null || search.length == 0) && !isLoaded) return
+
         const currentSearchParams = new URLSearchParams(window.location.search);
         if (search && search.length > 0) {
             currentSearchParams.set("search", search);

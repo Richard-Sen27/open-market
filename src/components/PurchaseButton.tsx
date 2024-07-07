@@ -1,6 +1,6 @@
 "use client"
 
-import { useSendTransaction, useWaitForTransactionReceipt } from 'wagmi'
+import { useSendTransaction, useSwitchChain, useWaitForTransactionReceipt } from 'wagmi'
 import { useEffect } from "react";
 import { parseEther } from "viem";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 export default function PurchaseButton({ text, price }: { text: string, price: number }) {
 	const { data: hash, isPending, sendTransaction } = useSendTransaction()
 	const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash })
+	const { switchChainAsync } = useSwitchChain()
 
 	useEffect(() => {
 		if (isConfirmed) {
@@ -15,7 +16,8 @@ export default function PurchaseButton({ text, price }: { text: string, price: n
 		}
 	}, [isConfirmed])
 
-	function purchaseClicked() {
+	async function purchaseClicked() {
+		await switchChainAsync({ chainId: 1 })
 		sendTransaction({
 			to: '0xd7b6202152ff734176BCf36bc0D646547684B29d',
 			value: parseEther(price.toFixed(0)),
