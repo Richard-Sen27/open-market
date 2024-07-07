@@ -7,66 +7,75 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { FormEvent, useEffect, useState } from "react";
 import { IoChatboxEllipses, IoSend } from "react-icons/io5";
 
-import Replicate from "replicate";
 import ChatMessasge from "./ChatMessage";
+import LoadingComponent from "@/components/LoadingComponent";
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-});
-
-const requestChat = async (prompt: string) => {
-    // e.preventDefault()
-    const input = {
-        top_k: 0,
-        top_p: 0.95,
-        prompt: prompt,
-        max_tokens: 512,
-        temperature: 0.7,
-        system_prompt: "You are a helpful assistant",
-        length_penalty: 1,
-        max_new_tokens: 512,
-        stop_sequences: "<|end_of_text|>,<|eot_id|>",
-        prompt_template: "<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n{prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n",
-        presence_penalty: 0,
-        log_performance_metrics: false
-      };
-
-      let result = ''
-      
-      for await (const event of replicate.stream("meta/meta-llama-3-8b-instruct", { input })) {
-        console.log(event.toString());
-        result += event.toString()
-        // process.stdout.write(event.toString());
-      };
-
-      console.log("result: ",result)
-}
-
-const testString = "Johnny has 8 billion parameters. His friend Tommy has 70 billion parameters. What does this mean when it comes to speed?"
 
 export default function Chat() {
-    const [chat, setChat] = useState<{message: string, type: "sent" | "recieved"}[]>([])
+    const [chat, setChat] = useState<{message: string, type: "sent" | "recieved" | "error"}[]>([])
     const [prompt, setPrompt] = useState('')
+    const [loading, setLoading] = useState(false)
 
-    const handleSend = (e: FormEvent<HTMLFormElement>) => {
+    const handleSend = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (prompt === '') return
 
         setChat([...chat, {message: prompt, type: "sent"}])
+        
+        setLoading(true)
+        await requestMessage()
+        setLoading(false)
+        
         setPrompt('')
-        // requestChat(testString)
-        setTimeout(echo, 1000)
     }
 
-    const echo = () => {
-        setChat((old) => [...old, {message: "ECHO", type: "recieved"}])
+    const requestMessage = async () => {
+
+        const key = process.env.NEXT_PUBLIC_REP_API_TOKEN
+
+        if (!key) {
+            setChat((old) => [...old, {message: "API key not found", type: "error"}])
+            return
+        }
+
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization",  key);
+
+        const raw = JSON.stringify({
+            "model": "gpt-3.5-turbo",
+            "messages": [
+                {
+                "role": "user",
+                "content": prompt
+                }
+            ],
+            "temperature": 1
+        });
+
+        try {
+            const res = await fetch("https://api.red-pill.ai/v1/chat/completions", {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            })
+            const data = await res.json()
+            const message = data.choices[0].message.content
+            console.log(data)
+            setChat((old) => [...old, {message: message, type: "recieved"}])
+        } catch (error) {
+            console.error(error)
+            setChat((old) => [...old, {message: "error", type: "recieved"}])
+        }
+
     }
 
     const scroll = () => {
         const messages = document.querySelectorAll('.chat-message')
         const last = messages[messages.length - 1]
         if (last) last.scrollIntoView()
-    }
+    }    
 
     useEffect(() => {
         scroll()
@@ -90,7 +99,13 @@ export default function Chat() {
                 </ScrollArea>
                 <form className="flex gap-4" onSubmit={handleSend}>
                     <Input id="prompt" name="prompt" placeholder="Type a message..." className="w-full" value={prompt} onChange={e => setPrompt(e.target.value)}/>
-                    <Button className="text-xl" type="submit" disabled={prompt.length === 0}><IoSend /></Button>
+                    <Button className="text-xl" type="submit" disabled={prompt.length === 0}>
+                        {
+                            loading ? 
+                                <LoadingComponent /> :
+                                <IoSend />
+                        }
+                    </Button>
                 </form>
             </CardContent>
         </Card>
