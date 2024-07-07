@@ -32,8 +32,8 @@ export default async function Page({ params } : { params: { id: string }}) {
             <div className="flex gap-6">
                 <Card>
                     <div className="h-full p-4 w-64 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
-                        <Image src={model?.image || ""} alt="" width={150} height={150} className="z-10 aspect-square"/>
-                        <Image src={model?.image || ""} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
+                        <img src={model?.image || ""} alt="" width={150} height={150} className="z-10 aspect-square"/>
+                        <img src={model?.image || ""} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
                     </div>
                 </Card>
                 <Card className="flex-grow flex flex-col justify-between">

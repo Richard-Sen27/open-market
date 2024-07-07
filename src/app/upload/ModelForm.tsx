@@ -87,11 +87,21 @@ export default function ModelForm() {
 			return
 		}
 
+		const formData = new FormData()
+		formData.append('file', thumbnail)
+		const { uuid } = await fetch('http://10.190.26.74:5000/single_image', {
+			method: 'POST',
+			body: formData
+		})
+		.then((x) => x.json())
+
+		console.log('uuid', uuid)
+
 		const data = await uploadModel({
 			title: title,
 			description: markdown,
 			price: price,
-			thumbnail: thumbnail!.name,
+			thumbnail: `http://10.190.26.74:5000/retrieve_img_by_uuid?uuid=${uuid}`,
 			authorId: address?.toString()!
 		})
 		router.push(`/browse/${data.id}`)
@@ -110,8 +120,8 @@ export default function ModelForm() {
 
 			<Card className="flex">
 				<div className="h-full w-64 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
-					<Image src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-10 aspect-square" />
-					<Image src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50" />
+					<img src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-10 aspect-square" />
+					<img src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50" />
 				</div>
 				<Separator orientation="vertical" />
 				<div>
@@ -122,7 +132,7 @@ export default function ModelForm() {
 						<Input
 							placeholder="Title" type="file"
 							className="file:text-muted-foreground"
-							accept=".png, .webp, .jpg" max={1}
+							accept=".png, .webp, .jpg, .jpeg" max={1}
 							onChange={(e) => setThumbnail(e.target.files![0])}
 						/>
 					</CardContent>

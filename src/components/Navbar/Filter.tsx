@@ -63,7 +63,6 @@ export default function Filter(){
     }, [type])
 
     const priceChange = (p: string) => {
-		console.log('new price', p)
         const price = p === "n/a" ? null : parseInt(p)
         setMaxPrice(price)
     }
