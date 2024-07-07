@@ -46,10 +46,10 @@ export default async function Page({ params } : { params: { id: string }}) {
                     </CardHeader>
                     <CardContent className="mt-auto">
                         <div className="flex justify-between">
-                            <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{entry?.price} <FaEthereum /></Badge>
+                            <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{(entry?.price ?? 0) / 100} <FaEthereum /></Badge>
 							<PurchaseButton
 								text={`Get ${entry?.type === "DATASET" ? "Dataset" : "Model"}`}
-								price={entry?.price ?? 0}
+								price={(entry?.price ?? 0) / 100}
 							/>
                         </div>  
                     </CardContent>

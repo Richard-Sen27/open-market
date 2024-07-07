@@ -7,21 +7,21 @@ import { Button } from "@/components/ui/button";
 
 export default function PurchaseButton({ text, price }: { text: string, price: number }) {
 	const { data: hash, isPending, sendTransaction } = useSendTransaction()
-	const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash })
+	const { isLoading: isLoadingConfirmed, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash, chainId: 11155111 })
 	const { switchChainAsync } = useSwitchChain()
 
 	useEffect(() => {
-		if (isConfirmed) {
+		if (isLoadingConfirmed) {
 			console.log('did purchase!!!!!')
 		}
-	}, [isConfirmed])
+	}, [isLoadingConfirmed])
 
 	async function purchaseClicked() {
-		await switchChainAsync({ chainId: 1 })
+		await switchChainAsync({ chainId: 11155111 })
 		sendTransaction({
 			to: '0xd7b6202152ff734176BCf36bc0D646547684B29d',
-			value: parseEther(price.toFixed(0)),
-			chainId: 1
+			value: parseEther((price / 100).toFixed(8)),
+			chainId: 11155111
 		})
 	}
 

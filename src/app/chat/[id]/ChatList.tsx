@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { useAccount, useChainId, useReadContract, useReadContracts, useWatchContractEvent, useWriteContract } from "wagmi"
+import { useAccount, useChainId, useReadContract, useReadContracts, useSwitchChain, useWatchContractEvent, useWriteContract } from "wagmi"
 
 import { abi, contractConfig } from '@/lib/nft_contract'
 import { FaPaperPlane } from "react-icons/fa"
@@ -18,10 +18,10 @@ interface Message {
 	content: string
 }
 
-const NFT_URL = "https://storage.googleapis.com/galadriel-assets/d8f2d423-f0d9-4e39-96fe-da7ab059037a.png"
-
 export default function ChatList({ id }: { id: string }) {
 	const scrollAreaRef = useRef<HTMLDivElement>(null)
+
+	const { switchChainAsync } = useSwitchChain()
 
 	const [message, setMessage] = useState("")
 	const [messages, setMessages] = useState<Message[]>([])
@@ -102,6 +102,7 @@ export default function ChatList({ id }: { id: string }) {
 	}
 
 	async function handleSubmit() {
+		await switchChainAsync({ chainId: 1 })
 		await writeContractAsync({
 			...contractConfig,
 			functionName: 'addMessage',
