@@ -2,8 +2,16 @@ import ModelCard from "@/components/ModelCard";
 import NavTitle from "@/components/NavTitle";
 import prisma from "@/lib/prisma";
 
+function convertToType(type: string) {
+	if (type == 'datasets') {
+		return 'DATASET'
+	} else if (type == 'models') {
+		return 'MODEL'
+	}
+}
+
 export default async function Home({ searchParams } : {searchParams: { [key: string]: string | string[] | undefined}}) {
-	const contents = await prisma.dataset.findMany({
+	const contents = searchParams.type == 'super_datasets' ? [] : await prisma.dataset.findMany({
 		where: { 
 			published: true,
 			AND: [
@@ -13,7 +21,11 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 						{ description: { contains: searchParams.search as string | undefined, mode: "insensitive"} },
 						{ title: { contains: searchParams.search as string | undefined, mode: "insensitive"} },
 					]
-				} : {}
+				} : {},
+				(
+					searchParams.type == 'datasets' ||
+					searchParams.type == 'models'
+				) ? { type: { equals: convertToType(searchParams.type) } } : {}
 			]
 		},
 		include: {
@@ -23,7 +35,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 		}
 	})
 
-	const superContents = await prisma.superDataset.findMany({
+	const superContents = (searchParams.type == null || searchParams.type == 'super_datasets') ? await prisma.superDataset.findMany({
 		where: { 
 			AND: [
 				searchParams.maxPrice ? { price: { lte: parseInt(searchParams.maxPrice as string) } } : {},
@@ -40,11 +52,9 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 				select: { id: true }
 			}
 		}
-	})
+	}) : []
 
 	const mergedContents = superContents.map((x) => ({ type: 'super', data: x })).concat(contents.map((x) => ({ type: 'normal', data: x })))
-	console.log('mergedContents', mergedContents)
-	console.log('superContents', superContents)
 
 	return (
 		<main className="flex flex-col h-full p-6">
