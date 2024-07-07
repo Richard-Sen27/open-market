@@ -63,7 +63,7 @@ export default function Profile() {
 		<div>
 			{
 				!isConnected ? (
-					<button type='button' onClick={handleLogin}>
+					<button type='button' className='mr-6' onClick={handleLogin}>
 						Sign In
 					</button>
 				) : (

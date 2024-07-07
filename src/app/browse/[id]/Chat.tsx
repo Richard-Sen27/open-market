@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { IoChatboxEllipses, IoSend } from "react-icons/io5";
 
 import Replicate from "replicate";
@@ -50,6 +50,8 @@ export default function Chat() {
 
     const handleSend = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (prompt === '') return
+
         setChat([...chat, {message: prompt, type: "sent"}])
         setPrompt('')
         // requestChat(testString)
@@ -60,13 +62,23 @@ export default function Chat() {
         setChat((old) => [...old, {message: "ECHO", type: "recieved"}])
     }
 
+    const scroll = () => {
+        const messages = document.querySelectorAll('.chat-message')
+        const last = messages[messages.length - 1]
+        if (last) last.scrollIntoView()
+    }
+
+    useEffect(() => {
+        scroll()
+    }, [chat])
+
     return (
         <Card>
             <CardHeader>
                 <CardTitle className="flex gap-4 items-center"><IoChatboxEllipses/>Dataset Chat</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
-                <ScrollArea className="h-96">
+                <ScrollArea id="chat-area" className="h-96 scroll-smooth">
                     <ScrollBar orientation="vertical"/>
                     <div className="flex flex-col gap-y-2">
                         {
@@ -78,7 +90,7 @@ export default function Chat() {
                 </ScrollArea>
                 <form className="flex gap-4" onSubmit={handleSend}>
                     <Input id="prompt" name="prompt" placeholder="Type a message..." className="w-full" value={prompt} onChange={e => setPrompt(e.target.value)}/>
-                    <Button className="text-xl" type="submit"><IoSend /></Button>
+                    <Button className="text-xl" type="submit" disabled={prompt.length === 0}><IoSend /></Button>
                 </form>
             </CardContent>
         </Card>
