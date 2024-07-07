@@ -23,7 +23,7 @@ export default function PurchasesList() {
 
 	return (
 		<div>
-			<h1 className='text-2xl font-bold mb-4'>{address}</h1>
+			<h1 className='text-3xl font-black mb-4'>{address}</h1>
 
 			<p className="text-xl font-bold mt-4">Purchased</p>
 			<div className="grid grid-cols-1 mt-2 gap-5">
