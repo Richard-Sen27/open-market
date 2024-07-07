@@ -1,10 +1,12 @@
 "use client"
 
 import LoadingComponent from "@/components/LoadingComponent"
+import { Badge } from "@/components/ui/badge"
 import { contractConfig } from "@/lib/nft_contract"
 import { config } from "@/lib/wagmi_config"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { FaEthereum } from "react-icons/fa6"
 import { watchContractEvent } from "viem/actions"
 import { useInfiniteReadContracts, usePublicClient, useReadContract, useSwitchChain, useTransactionConfirmations, useWatchContractEvent, useWriteContract } from "wagmi"
 
@@ -92,7 +94,10 @@ export default function CharactersList({ limit = 10 }: { limit: number } = { lim
 						onClick={() => chatWith(i + 1)}
 					>
 						<img src={nft.url} className="aspect-square w-full rounded-xl" />
-						<span className='font-bold text-2xl mt-2'>{nft.name}</span>
+						<div className="flex justify-between mt-2">
+							<span className='font-bold text-2xl mt-2'>{nft.name}</span>
+							<Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{(Math.round(Math.random() * 100) / 225).toFixed(2)} <FaEthereum /></Badge>
+						</div>
 					</button>
 				))
 			}
