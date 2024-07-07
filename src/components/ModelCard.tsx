@@ -51,7 +51,7 @@ export default function ModelCard(
 						<Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{numberDots(downloads)} <IoMdDownload /></Badge>
 						<div className="flex-1" />
                         <Button variant="default" asChild className="max-w-32 bg-green-500 hover:bg-green-700 w-full">
-                            <Link href={href}>Get Model</Link>
+                            <Link href={href}>Buy</Link>
                         </Button>
                     </div>
                 </CardContent>
