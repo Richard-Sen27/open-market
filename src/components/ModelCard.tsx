@@ -30,8 +30,8 @@ export default function ModelCard(
     return (
         <Card className="flex">
             <div className="h-full w-64 shrink-0 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
-                <Image src={image} alt="" width={150} height={150} className="z-10 aspect-square object-contain"/>
-                <Image src={image} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
+                <img src={image} alt="" width={150} height={150} className="z-10 aspect-square object-contain"/>
+                <img src={image} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50"/>
             </div>
             <Separator orientation="vertical"/>
             <div className="flex flex-col w-full gap-4">
