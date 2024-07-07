@@ -73,7 +73,7 @@ export default function Filter(){
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="w-full flex gap-2">
+            <div className="w-full flex gap-4">
                 <div className="w-full flex flex-col">
                     <h2>Max Price</h2>
                     <Select defaultValue="n/a" onValueChange={priceChange}>

@@ -89,7 +89,7 @@ export default function Chat() {
             <CardContent className="flex flex-col gap-4">
                 <ScrollArea id="chat-area" className="h-96 scroll-smooth">
                     <ScrollBar orientation="vertical"/>
-                    <div className="flex flex-col gap-y-2">
+                    <div className="flex flex-col gap-y-4">
                         {
                             chat.map((message, index) => (
                                 <ChatMessasge key={index} message={message.message} type={message.type}/>

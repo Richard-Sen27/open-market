@@ -11,13 +11,14 @@ import {
 import { useState } from "react";
 import ModelForm from "./ModelForm";
 import DatasetForm from "./DatasetForm";
+import NavTitle from "@/components/NavTitle";
   
 export default function Page() {
     const [selected, setSelected] = useState("model");
     return (
         <main className="flex flex-col h-full p-4">
-            <div className="flex items-center justify-between mb-4">
-                <h2 className="font-bold text-3xl">Upload</h2>
+            <NavTitle title="Upload" showNav={false}/>
+            <div className="flex items-center justify-between mt-6 mb-2">
                 <Select defaultValue="model" onValueChange={setSelected} value={selected}>
                     <SelectTrigger className="w-[180px]" >
                         <SelectValue placeholder="Select Upload"/>

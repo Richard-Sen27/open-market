@@ -12,7 +12,7 @@ import { useGlobalState } from "@/app/GlobalContext";
 import { Label } from "../ui/label";
 
 export default function Navbar() {
-    const { search, setSearch } = useGlobalState();
+    const { search, setSearch, showNav } = useGlobalState();
     const router = useRouter();
     const searchParams = useSearchParams();
 	const [isLoaded, setIsLoaded] = useState(false)
@@ -35,6 +35,8 @@ export default function Navbar() {
         }
         router.push(`/browse?${currentSearchParams.toString()}`);
     }, [search]);
+
+    if (!showNav) return null
 
     return (
         <nav className="w-[350px] flex flex-col justify-between gap-4 h-full relative shrink-0">
