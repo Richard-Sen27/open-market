@@ -4,14 +4,10 @@ import prisma from "@/lib/prisma";
 import NavTitle from "@/components/NavTitle";
 import Image from "next/image";
 import { IoMdDownload } from "react-icons/io";
-import { numberDots } from "@/lib/utils";
+import { cn, numberDots } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FaEthereum } from "react-icons/fa";
-import { IoChatboxEllipses, IoSend } from "react-icons/io5";
-import { Input } from "@/components/ui/input";
-import ChatMessasge from "./ChatMessage";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import Chat from "./Chat";
 
 
@@ -44,7 +40,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                                 <CardTitle>{entry?.title}</CardTitle>
                                 <p className="opacity-40">by {entry?.authorId}</p> 
                             </div>
-                            <div className="mr-6 flex items-center gap-1 text-2xl">
+                            <div className="flex items-center gap-1 text-2xl">
                                 {numberDots(entry?.downloads || 0)}
                                 <IoMdDownload className="text-3xl text-green-500"/>
                             </div>
@@ -61,7 +57,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                 </Card>
             </div>
             <div className="grid grid-cols-3 gap-6">
-                <Card className="col-span-2">
+                <Card className={cn("mb-auto", entry?.type === "MODEL" ? "col-span-2" : "col-span-3")}>
                     <CardHeader>
                         <CardTitle className="flex gap-4 items-center">
                             <FaCircleInfo/> General Info
@@ -71,7 +67,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                         {entry?.description || ""}
                     </CardContent>
                 </Card>
-                <Chat />
+                { entry?.type === "MODEL" && <Chat /> }
             </div>
         </main>
     )
