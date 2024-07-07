@@ -6,9 +6,9 @@ import { SiweMessage } from "siwe";
 import { injected } from 'wagmi/connectors'
 import Identicon from '@/components/Identicons';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown';
-import { Button } from './ui/button';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDarkMode, useIsClient } from 'usehooks-ts'
+import Link from 'next/link';
 
 export default function Profile() {
 	const { connectAsync } = useConnect()
@@ -59,12 +59,11 @@ export default function Profile() {
 		await signOut()
 	}
 
-
 	return (
 		<div>
 			{
 				!isConnected ? (
-					<button onClick={handleLogin}>
+					<button type='button' onClick={handleLogin}>
 						Sign In
 					</button>
 				) : (
@@ -77,7 +76,7 @@ export default function Profile() {
 							<DropdownMenuSeparator />
 							<DropdownMenuGroup>
 								<DropdownMenuItem>
-									Profile
+									<Link href="/profile">Profile</Link>
 								</DropdownMenuItem>
 								<DropdownMenuItem
 									onClick={() => toggle()}

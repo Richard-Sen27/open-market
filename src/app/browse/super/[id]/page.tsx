@@ -43,7 +43,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                                 <CardTitle>{model?.title}</CardTitle>
                                 <p className="opacity-40">by {model?.authorId}</p> 
                             </div>
-                            <div className="mr-6 flex items-center gap-1 text-2xl">
+                            <div className="flex items-center gap-1 text-2xl">
                                 {numberDots(model?.downloads || 0)}
                                 <IoMdDownload className="text-3xl text-green-500"/>
                             </div>
@@ -52,7 +52,7 @@ export default async function Page({ params } : { params: { id: string }}) {
                     <CardContent className="mt-auto">
                         <div className="flex justify-between">
                             <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{model?.price} <FaEthereum /></Badge>
-                            <Button variant="default" className="max-w-32 bg-green-500 hover:bg-green-700 w-full">
+                            <Button variant="default" className="w-fit bg-green-500 hover:bg-green-700">
                                 Get Super Dataset
                             </Button>
                         </div>  
@@ -79,12 +79,12 @@ export default async function Page({ params } : { params: { id: string }}) {
 				</CardHeader>
 				<CardContent className="flex flex-col gap-4">
 					{
-						model.datasets.map((dataset: any) => (
+						model?.datasets.map((dataset: any) => (
 							<div className="flex gap-4 items-center">
 								<img src={dataset.image} className="h-20 w-20 rounded-xl" />
 								<div className="flex-1">
 									<p className="font-bold text-xl">{dataset.title}</p>
-									<p>{dataset.authorId}</p>
+									<p className="opacity-40">{dataset.authorId}</p>
 								</div>
 								<Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{dataset.price / 100} <FaEthereum /></Badge>
 								<Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{numberDots(dataset.downloads)} <IoMdDownload /></Badge>
