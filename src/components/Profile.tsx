@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { usePathname, useRouter } from 'next/navigation';
 import { useDarkMode, useIsClient } from 'usehooks-ts'
 import Link from 'next/link';
+import { registerUsr as registerUser } from '@/lib/purchase_backend';
 
 export default function Profile() {
 	const { connectAsync } = useConnect()
@@ -29,28 +30,31 @@ export default function Profile() {
 
 	const handleLogin = async () => {
 		try {
-			await connectAsync({ connector: injected() })
+			const { accounts } = await connectAsync({ connector: injected() })
 
-			const message = new SiweMessage({
-				domain: window.location.host,
-				address: address,
-				statement: 'Sign in with Ethereum to the app.',
-				uri: window.location.origin,
-				version: '1',
-				chainId: chainId,
-				nonce: await getCsrfToken(),
-			})
+			console.log(accounts)
 
-			const signature = await signMessageAsync({ message: message.prepareMessage() })
-			signIn('credentials', {
-				message: JSON.stringify(message),
-				redirect: false,
-				signature,
-				callbackUrl: pathname
-			})
+			registerUser(accounts[0])
+
+			// const message = new SiweMessage({
+			// 	domain: window.location.host,
+			// 	address: address,
+			// 	statement: 'Sign in with Ethereum to the app.',
+			// 	uri: window.location.origin,
+			// 	version: '1',
+			// 	chainId: chainId,
+			// 	nonce: await getCsrfToken(),
+			// })
+
+			// const signature = await signMessageAsync({ message: message.prepareMessage() })
+			// signIn('credentials', {
+			// 	message: JSON.stringify(message),
+			// 	redirect: false,
+			// 	signature,
+			// 	callbackUrl: '/api/auth/register'
+			// })
 		} catch (error) {
 			console.log(error)
-			window.alert(error)
 		}
 	}
 

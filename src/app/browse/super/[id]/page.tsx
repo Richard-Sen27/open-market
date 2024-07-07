@@ -8,6 +8,8 @@ import { numberDots } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FaEthereum } from "react-icons/fa";
+import PurchaseButton from "@/components/PurchaseButton";
+import Link from "next/link";
 
 export default async function Page({ params } : { params: { id: string }}) {
     const model = await prisma.superDataset.findUnique({
@@ -51,10 +53,13 @@ export default async function Page({ params } : { params: { id: string }}) {
                     </CardHeader>
                     <CardContent className="mt-auto">
                         <div className="flex justify-between">
-                            <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{model?.price} <FaEthereum /></Badge>
-                            <Button variant="default" className="w-fit bg-green-500 hover:bg-green-700">
-                                Get Super Dataset
-                            </Button>
+                            <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{(model?.price ?? 0) / 100} <FaEthereum /></Badge>
+							<PurchaseButton
+								text={`Get Super Dataset`}
+								price={(model?.price ?? 0) / 100}
+								type={'super_dataset'}
+								id={params.id}
+							/>
                         </div>  
                     </CardContent>
                 </Card>
@@ -80,15 +85,17 @@ export default async function Page({ params } : { params: { id: string }}) {
 				<CardContent className="flex flex-col gap-4">
 					{
 						model?.datasets.map((dataset: any) => (
-							<div className="flex gap-4 items-center">
-								<img src={dataset.image} className="h-20 w-20 rounded-xl" />
-								<div className="flex-1">
-									<p className="font-bold text-xl">{dataset.title}</p>
-									<p className="opacity-40">{dataset.authorId}</p>
+							<Link href={`/browse/${dataset.id}`}>
+								<div className="flex gap-4 items-center">
+									<img src={dataset.image} className="h-20 w-20 rounded-xl" />
+									<div className="flex-1">
+										<p className="font-bold text-xl">{dataset.title}</p>
+										<p className="opacity-40">{dataset.authorId}</p>
+									</div>
+									<Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{dataset.price / 100} <FaEthereum /></Badge>
+									<Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{numberDots(dataset.downloads)} <IoMdDownload /></Badge>
 								</div>
-								<Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{dataset.price / 100} <FaEthereum /></Badge>
-								<Badge variant="secondary" className="text-nowrap mr-auto text-md gap-2">{numberDots(dataset.downloads)} <IoMdDownload /></Badge>
-							</div>
+							</Link>
 						))
 					}
 				</CardContent>

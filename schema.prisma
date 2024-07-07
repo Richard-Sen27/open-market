@@ -44,11 +44,25 @@ model SuperDataset {
 	datasets		Dataset[]
 }
 
+model Purchase {
+	id					String @default(cuid()) @id
+
+	author				User?   @relation(fields: [authorId], references: [id])
+	authorId			String?
+
+	type				String
+	itemId				String
+
+	transactionHash		String
+}
+
 model User {
   id				String	@id
 
   datasets			Dataset[]
   superDatasets		SuperDataset[]
+
+  purchases			Purchase[]
 
   @@map(name: "users")
 }

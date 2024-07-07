@@ -75,6 +75,7 @@ export default async function Home({ searchParams } : {searchParams: { [key: str
 								type={model.type == 'normal' ? model.data.type : 'Super Dataset'}
 								image={model.data.image}
 								href={model.type == 'normal' ? `/browse/${model.data.id}` : `/browse/super/${model.data.id}`}
+								showBuy={true}
 							/>
 						))
 				}

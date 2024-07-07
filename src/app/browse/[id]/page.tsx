@@ -1,14 +1,14 @@
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { FaCircleInfo } from "react-icons/fa6";
+import { FaCircleInfo, FaDownload, FaFile } from "react-icons/fa6";
 import prisma from "@/lib/prisma";
 import NavTitle from "@/components/NavTitle";
-import Image from "next/image";
 import { IoMdDownload } from "react-icons/io";
 import { cn, numberDots } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
-import { FaEthereum } from "react-icons/fa";
+import { FaDatabase, FaEthereum } from "react-icons/fa";
 import Chat from "./Chat";
 import PurchaseButton from '@/components/PurchaseButton'
+import FilesList from '@/components/FilesList'
 
 export default async function Page({ params } : { params: { id: string }}) {
     const entry = await prisma.dataset.findUnique({
@@ -50,6 +50,8 @@ export default async function Page({ params } : { params: { id: string }}) {
 							<PurchaseButton
 								text={`Get ${entry?.type === "DATASET" ? "Dataset" : "Model"}`}
 								price={(entry?.price ?? 0) / 100}
+								type={'entity'}
+								id={params.id}
 							/>
                         </div>  
                     </CardContent>
@@ -68,6 +70,12 @@ export default async function Page({ params } : { params: { id: string }}) {
                 </Card>
                 { entry?.type === "MODEL" && <Chat /> }
             </div>
+
+			<FilesList
+				files={entry?.files ?? []}
+				type={'entity'}
+				id={params.id}
+			/>
         </main>
     )
 }
