@@ -25,38 +25,45 @@ export default function Filter(){
     const router = useRouter()
     const searchParams = useSearchParams()
 
+	const [isLoaded, useIsLoaded] = useState(false)
+
     useEffect(() => {
         const maxPrice = searchParams.get("maxPrice")
         if (maxPrice && maxPrice.length > 0) setMaxPrice(parseInt(maxPrice))
         const type = searchParams.get("type")
         if (type && type.length > 0) setType(type)
+
+		useIsLoaded(true)
     }, [])
 
     useEffect(() => {
-		if (maxPrice == null) return
+		if (maxPrice == null && !isLoaded) return
 
         const currentSearchParams = new URLSearchParams(window.location.search)
-        if (maxPrice) {
+        if (maxPrice != null) {
             currentSearchParams.set("maxPrice", maxPrice.toString())
         } else {
             currentSearchParams.delete("maxPrice")
         }
+
         router.push(`/browse?${currentSearchParams.toString()}`)
     }, [maxPrice])
 
     useEffect(() => {
-		if (type == null || type.length < 1) return
+		if (type == null && !isLoaded) return
 
         const currentSearchParams = new URLSearchParams(window.location.search)
-        if (type) {
+        if (type != null) {
             currentSearchParams.set("type", type)
         } else {
             currentSearchParams.delete("type")
         }
+
         router.push(`/browse?${currentSearchParams.toString()}`)
     }, [type])
 
     const priceChange = (p: string) => {
+		console.log('new price', p)
         const price = p === "n/a" ? null : parseInt(p)
         setMaxPrice(price)
     }
@@ -75,7 +82,7 @@ export default function Filter(){
                             <SelectValue placeholder="Select Price"/>
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="n/a">N/A</SelectItem>
+                            <SelectItem value="n/a">Any Price</SelectItem>
                             <SelectItem value="0">Free</SelectItem>
                             <SelectItem value="20">
 								<div className="flex gap-2 items-center">
@@ -114,10 +121,10 @@ export default function Filter(){
                             <SelectValue placeholder="Select Type" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="n/a">N/A</SelectItem>
+                            <SelectItem value="n/a">Anything</SelectItem>
                             <SelectItem value="datasets">Datasets</SelectItem>
-                            <SelectItem value="models">Models</SelectItem>
-                            <SelectItem value="all">Anything</SelectItem>                            
+							<SelectItem value="super_datasets">Super Datasets</SelectItem>
+                            <SelectItem value="models">Models</SelectItem>                           
                         </SelectContent>
                     </Select>
                 </div>

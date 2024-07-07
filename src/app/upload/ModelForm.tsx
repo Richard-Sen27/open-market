@@ -61,7 +61,6 @@ export default function ModelForm() {
 
 	const handleUpload = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log("Uploading model");
 
 		//   modelFormSchema.parse(data);
 		if (!isConnected) {
@@ -78,21 +77,15 @@ export default function ModelForm() {
 			categories
 		)
 
-		console.log('we598iyughfgfd87')
-
 		if (!modelFile && false) {
 			alert("Please upload a model file");
 			return;
 		}
 
-		console.log('astop[dsa')
-
 		if (!thumbnail) {
 			alert("Please upload a thumbnail");
 			return
 		}
-
-		console.log('uploading...')
 
 		const data = await uploadModel({
 			title: title,
@@ -101,7 +94,6 @@ export default function ModelForm() {
 			thumbnail: thumbnail!.name,
 			authorId: address?.toString()!
 		})
-		console.log('returned data', data)
 		router.push(`/browse/${data.id}`)
 	}
 
