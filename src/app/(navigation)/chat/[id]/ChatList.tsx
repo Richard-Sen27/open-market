@@ -117,7 +117,7 @@ export default function ChatList({ id }: { id: string }) {
 
 	return (
 		<div className="h-full">
-			<NavTitle title={`Chat with ${chatData.name}`} />
+			<NavTitle title={`Chat with ${chatData.name}`} showNav={false} />
 			<ScrollArea style={{height: "calc(100vh - 129.5px)"}} ref={scrollAreaRef}>
 				<div className="p-8 flex flex-col gap-4 relative flex-1 h-full">
 					{
