@@ -5,14 +5,12 @@ import NavTitle from "@/components/NavTitle";
 import Image from "next/image";
 import { IoMdDownload } from "react-icons/io";
 import { cn, numberDots } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { FaEthereum } from "react-icons/fa";
 import Chat from "./Chat";
-
+import PurchaseButton from '@/components/PurchaseButton'
 
 export default async function Page({ params } : { params: { id: string }}) {
-
     const entry = await prisma.dataset.findUnique({
         where: { id: params.id }
     })
@@ -49,9 +47,10 @@ export default async function Page({ params } : { params: { id: string }}) {
                     <CardContent className="mt-auto">
                         <div className="flex justify-between">
                             <Badge variant="secondary" className="text-nowrap px-4 text-md gap-2">{entry?.price} <FaEthereum /></Badge>
-                            <Button variant="default" className="max-w-32 bg-green-500 hover:bg-green-700 w-full">
-                                Get { entry?.type === "DATASET" ? "Dataset" : "Model"}
-                            </Button>
+							<PurchaseButton
+								text={`Get ${entry?.type === "DATASET" ? "Dataset" : "Model"}`}
+								price={entry?.price ?? 0}
+							/>
                         </div>  
                     </CardContent>
                 </Card>
