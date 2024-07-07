@@ -8,8 +8,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import Image from "next/image"
-import Placeholder from "../../../public/placeholder.jpeg"
+import Placeholder from "../../../../public/placeholder.jpeg"
 
 // import SimpleMDE from 'react-simplemde-editor';
 // import 'easymde/dist/easymde.min.css';
@@ -25,10 +24,11 @@ import { FaEthereum } from "react-icons/fa"
 import { useAccount } from "wagmi"
 import { uploadModel } from "./upload"
 import ComboBox from "@/components/Form/ComboBox"
-import { useGlobalState } from "../GlobalContext"
+import { useGlobalState } from "../../GlobalContext"
 import ListBadge from "@/components/Form/ListBadge"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export default function ModelForm() {
 	const [title, setTitle] = useState("");
@@ -77,7 +77,7 @@ export default function ModelForm() {
 			categories
 		)
 
-		if (!modelFile && false) {
+		if (!modelFile) {
 			alert("Please upload a model file");
 			return;
 		}
@@ -120,8 +120,8 @@ export default function ModelForm() {
 
 			<Card className="flex">
 				<div className="h-full w-64 flex items-center justify-center relative overflow-hidden rounded-l-[calc(var(--radius)-1px)]">
-					<img src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-10 aspect-square" />
-					<img src={thumbnailUrl ? thumbnailUrl : Placeholder} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50" />
+					<img src={thumbnailUrl ? thumbnailUrl : Placeholder.src} alt="" width={150} height={150} className="z-10 aspect-square" />
+					<img src={thumbnailUrl ? thumbnailUrl : Placeholder.src} alt="" width={150} height={150} className="z-0 h-full aspect-square absolute top-0 left-1/2 -translate-x-1/2 blur-2xl opacity-50" />
 				</div>
 				<Separator orientation="vertical" />
 				<div>
@@ -205,9 +205,11 @@ export default function ModelForm() {
 				</CardContent>
 			</Card>
 
-			<div className="col-span-2 flex">
-				<Button variant="secondary" disabled className="flex gap-4 items-center justify-center flex-1">
-					<MdSave className="text-xl" /> Save
+			<div className="col-span-2 flex gap-6 mb-6">
+				<Button asChild variant="secondary" className="flex gap-4 items-center justify-center flex-1">
+					<Link href="/browse">
+						Cancel
+					</Link>
 				</Button>
 				<Button type="submit" className="flex gap-4 items-center justify-center flex-1"><MdUpload className="text-xl" /> Upload </Button>
 			</div>

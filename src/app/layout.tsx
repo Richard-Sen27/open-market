@@ -30,17 +30,7 @@ export default function RootLayout({
 		<html lang="en">
 			<ThemeWrapper>
 				<Providers initialState={initialState}>
-					<div className="flex flex-col h-full">
-						<Header />
-						<div className="flex flex-grow h-full overflow-y-auto">
-							<Navbar />
-							<Separator orientation="vertical" />
-							<ScrollArea className="w-full h-full">
-								<ScrollBar orientation="vertical"/>
-								{children}
-							</ScrollArea>
-						</div>
-					</div>
+					{children}
 				</Providers>
 			</ThemeWrapper>
 		</html>
