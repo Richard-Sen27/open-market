@@ -52,16 +52,16 @@ function Home() {
 
 		<section className="my-52 mx-32">
 			<p className="text-md w-1/2">
-				OpenMarket: Vision was founded with the aim of shifting the control of AI technologies from big tech firms to the hands of individual developers and researchers. We are proud to have started this project at a hackathon, rapidly evolving to a fully functional marketplace within 48 hours.
+				Vision was founded with the aim of shifting the control of AI technologies from big tech firms to the hands of individual developers and researchers. We are proud to have started this project at a hackathon, rapidly evolving to a fully functional marketplace within 48 hours.
 			</p>
 		</section>
 
         <section className="p-4 flex flex-col gap-2 items-center border-y border-2">
-          <h2 className="text-2xl font-bold">Get in Touch</h2>
-          <p className="text-xl">Any questions? Reach out to our team or join our community forum to get more involved.</p>
+          <h2 className="text-xl font-bold">Get in Touch</h2>
+          <p>Any questions? Reach out to our team or join our community forum to get more involved.</p>
         </section>
         
-        <footer className="text-center text-xl py-4">
+        <footer className="text-center py-4">
           © 2024 OpenMarket: Vision. All rights reserved.
         </footer>
       </ScrollArea>
